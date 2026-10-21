@@ -172,8 +172,18 @@ export function DataProvider({ children }) {
         pTicker
       ]);
 
-      // Cache fresh data locally in IndexedDB for instant loads on subsequent visits
-      if (dbOutlets.length > 0 || dbProducts.length > 0) {
+      // If database returned 0 items (e.g. RLS blocking anon read), load defaults gracefully
+      if (dbOutlets.length === 0 && dbProducts.length === 0) {
+        console.warn('⚠️ Supabase returned 0 items (likely Row Level Security policy not set for anon). Using fallback data.');
+        const defaults = await import('../data/defaults.js');
+        setOutlets(prev => (prev.length > 0 ? prev : defaults.DEFAULT_OUTLETS));
+        setCategories(prev => (prev.length > 0 ? prev : defaults.DEFAULT_OUTLET_CATEGORIES));
+        setProducts(prev => (prev.length > 0 ? prev : defaults.DEFAULT_PRODUCTS));
+        setPromos(prev => (prev.length > 0 ? prev : defaults.DEFAULT_PROMOS));
+        setPricelists(prev => (prev.length > 0 ? prev : defaults.DEFAULT_PRICELISTS));
+        setTicker(prev => (prev.length > 0 ? prev : defaults.DEFAULT_TICKER));
+      } else if (dbOutlets.length > 0 || dbProducts.length > 0) {
+        // Cache fresh data locally in IndexedDB for instant loads on subsequent visits
         setCache(CACHE_KEY, {
           outlets: dbOutlets,
           categories: dbCategories,
@@ -212,32 +222,51 @@ export function DataProvider({ children }) {
       console.warn('Error reading initial CS cache:', e);
     }
 
-    getCache(CACHE_KEY).then((cached) => {
-      if (!isMounted || !cached) return;
-      if (cached.outlets && cached.outlets.length > 0) {
-        setOutlets(cached.outlets);
-        setOutletsLoading(false);
+    getCache(CACHE_KEY).then(async (cached) => {
+      if (!isMounted) return;
+      if (cached && (cached.outlets?.length > 0 || cached.products?.length > 0)) {
+        if (cached.outlets && cached.outlets.length > 0) {
+          setOutlets(cached.outlets);
+          setOutletsLoading(false);
+        }
+        if (cached.categories && cached.categories.length > 0) {
+          setCategories(cached.categories);
+          setCategoriesLoading(false);
+        }
+        if (cached.products && cached.products.length > 0) {
+          setProducts(cached.products);
+          setProductsLoading(false);
+        }
+        if (cached.promos && cached.promos.length > 0) {
+          setPromos(cached.promos);
+          setPromosLoading(false);
+        }
+        if (cached.pricelists && cached.pricelists.length > 0) {
+          setPricelists(cached.pricelists);
+          setPricelistsLoading(false);
+        }
+        if (cached.ticker && cached.ticker.length > 0) {
+          setTicker(cached.ticker);
+        }
+        setLoading(false);
+      } else {
+        // First-time visit: load local default data immediately so page is never empty
+        const defaults = await import('../data/defaults.js');
+        if (isMounted) {
+          setOutlets(prev => (prev.length > 0 ? prev : defaults.DEFAULT_OUTLETS));
+          setCategories(prev => (prev.length > 0 ? prev : defaults.DEFAULT_OUTLET_CATEGORIES));
+          setProducts(prev => (prev.length > 0 ? prev : defaults.DEFAULT_PRODUCTS));
+          setPromos(prev => (prev.length > 0 ? prev : defaults.DEFAULT_PROMOS));
+          setPricelists(prev => (prev.length > 0 ? prev : defaults.DEFAULT_PRICELISTS));
+          setTicker(prev => (prev.length > 0 ? prev : defaults.DEFAULT_TICKER));
+          setOutletsLoading(false);
+          setCategoriesLoading(false);
+          setProductsLoading(false);
+          setPromosLoading(false);
+          setPricelistsLoading(false);
+          setLoading(false);
+        }
       }
-      if (cached.categories && cached.categories.length > 0) {
-        setCategories(cached.categories);
-        setCategoriesLoading(false);
-      }
-      if (cached.products && cached.products.length > 0) {
-        setProducts(cached.products);
-        setProductsLoading(false);
-      }
-      if (cached.promos && cached.promos.length > 0) {
-        setPromos(cached.promos);
-        setPromosLoading(false);
-      }
-      if (cached.pricelists && cached.pricelists.length > 0) {
-        setPricelists(cached.pricelists);
-        setPricelistsLoading(false);
-      }
-      if (cached.ticker && cached.ticker.length > 0) {
-        setTicker(cached.ticker);
-      }
-      setLoading(false);
     });
 
     // 2. Refresh live data from Supabase in the background
