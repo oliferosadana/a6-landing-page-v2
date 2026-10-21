@@ -1,0 +1,12 @@
+# robots.txt for Amanda Brownies Kalimantan
+User-agent: *
+Allow: /
+Allow: /#cs
+Allow: /cs
+
+# Block admin panel from search engine indexing
+Disallow: /admin
+Disallow: /#admin
+
+# Sitemap
+Sitemap: https://amandabrownies-balikpapan.id/sitemap.xml

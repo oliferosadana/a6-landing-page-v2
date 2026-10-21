@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" width="100%" height="100%">
+  <defs>
+    <style>
+      .amanda-border {
+        fill: #FFFFFF;
+        stroke: #5D3315;
+        stroke-width: 14;
+      }
+      .amanda-logotype {
+        font-family: 'Times New Roman', 'Bodoni MT', 'Georgia', serif;
+        font-weight: 900;
+        font-style: italic;
+        fill: #5D3315;
+      }
+    </style>
+    <!-- Path for curved text alignment -->
+    <path id="curvePath" d="M 60,195 Q 300,240 540,175" fill="none" />
+  </defs>
+
+  <!-- Outer Oval -->
+  <ellipse cx="300" cy="150" rx="285" ry="135" class="amanda-border" />
+
+  <!-- Official Curved Amanda Typography -->
+  <!-- We render with custom scaled glyphs for perfect reproduction -->
+  <g transform="translate(48, 40)">
+    <!-- Letter A -->
+    <text x="35" y="145" font-family="'Times New Roman', 'Georgia', serif" font-size="118" font-weight="900" fill="#5D3315" transform="rotate(-6 35 145)">A</text>
+    
+    <!-- Letter m -->
+    <text x="145" y="152" font-family="'Times New Roman', 'Georgia', serif" font-size="94" font-weight="900" fill="#5D3315" transform="rotate(-2 145 152)">m</text>
+    
+    <!-- Letter a -->
+    <text x="245" y="157" font-family="'Times New Roman', 'Georgia', serif" font-size="94" font-weight="900" fill="#5D3315" transform="rotate(2 245 157)">a</text>
+    
+    <!-- Letter n -->
+    <text x="315" y="157" font-family="'Times New Roman', 'Georgia', serif" font-size="94" font-weight="900" fill="#5D3315" transform="rotate(5 315 157)">n</text>
+    
+    <!-- Letter d -->
+    <text x="390" y="152" font-family="'Times New Roman', 'Georgia', serif" font-size="100" font-weight="900" fill="#5D3315" transform="rotate(8 390 152)">d</text>
+    
+    <!-- Letter a -->
+    <text x="458" y="140" font-family="'Times New Roman', 'Georgia', serif" font-size="94" font-weight="900" fill="#5D3315" transform="rotate(11 458 140)">a</text>
+
+    <!-- (R) Registered Trademark -->
+    <g transform="translate(506, 52)">
+      <circle cx="8" cy="8" r="9" fill="none" stroke="#5D3315" stroke-width="2" />
+      <text x="8" y="11.5" font-family="'Arial', sans-serif" font-size="10" font-weight="900" text-anchor="middle" fill="#5D3315">R</text>
+    </g>
+  </g>
+</svg>
