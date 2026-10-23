@@ -192,18 +192,20 @@ export default function OutletLocator({ onOpenOutletModal }) {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="btn-booth-simple-wa"
-                                        title={`WhatsApp ${bth.name}`}
+                                        title={`Chat WhatsApp ${bth.name}`}
+                                        aria-label={`Chat WhatsApp ${bth.name}`}
                                       >
-                                        <i className="fa-brands fa-whatsapp"></i> Chat
+                                        <i className="fa-brands fa-whatsapp"></i>
                                       </a>
                                       <a
                                         href={bth.grabUrl || out.grabUrl || `https://food.grab.com/id/id/restaurants?search=${encodeURIComponent('Amanda Brownies ' + bth.name)}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="btn-booth-simple-grab"
-                                        title={`Pesan GrabFood ${bth.name}`}
+                                        title={`Pesan via GrabFood ${bth.name}`}
+                                        aria-label={`Pesan via GrabFood ${bth.name}`}
                                       >
-                                        <GrabIcon size={12} className="grab-icon-mini" /> Grab
+                                        <GrabIcon size={14} className="grab-icon-mini" />
                                       </a>
                                       <a
                                         href={mapsUrl}
@@ -211,6 +213,7 @@ export default function OutletLocator({ onOpenOutletModal }) {
                                         rel="noopener noreferrer"
                                         className="btn-booth-simple-maps"
                                         title={`Petunjuk Arah Google Maps ${bth.name}`}
+                                        aria-label={`Petunjuk Arah Google Maps ${bth.name}`}
                                       >
                                         <i className="fa-solid fa-map-location-dot"></i>
                                       </a>
@@ -222,7 +225,7 @@ export default function OutletLocator({ onOpenOutletModal }) {
                           </div>
                         )}
 
-                        {/* Actions: WA (icon), Grab (icon), Location (icon) */}
+                        {/* Actions: WA (logo), Grab (logo), Location (logo) - Icon Only */}
                         <div className="outlet-network-actions">
                           <a
                             href={`https://wa.me/${out.wa}?text=${encodeURIComponent(`Halo ${out.name}, saya ingin pesan brownies Amanda. Mohon info varian yang ready saat ini.`)}`}
@@ -230,29 +233,29 @@ export default function OutletLocator({ onOpenOutletModal }) {
                             rel="noopener noreferrer"
                             className="btn-network-wa"
                             title={`Chat WhatsApp: ${out.name}`}
+                            aria-label={`Chat WhatsApp ${out.name}`}
                           >
                             <i className="fa-brands fa-whatsapp"></i>
-                            <span>Chat WA</span>
                           </a>
                           <a
                             href={out.grabUrl || `https://food.grab.com/id/id/restaurants?search=${encodeURIComponent('Amanda Brownies ' + (out.name || out.city))}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn-network-grab"
-                            title={`Order GrabFood: ${out.name}`}
+                            title={`Pesan via GrabFood: ${out.name}`}
+                            aria-label={`Pesan via GrabFood ${out.name}`}
                           >
-                            <GrabIcon size={15} className="grab-icon-svg" />
-                            <span>Grab</span>
+                            <GrabIcon size={18} className="grab-icon-svg" />
                           </a>
                           <a
                             href={out.mapsUrl || `https://maps.google.com/?q=${encodeURIComponent(out.name + ' ' + out.city)}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn-network-maps"
-                            title={`Petunjuk Rute Maps: ${out.name}`}
+                            title={`Petunjuk Rute Google Maps: ${out.name}`}
+                            aria-label={`Petunjuk Rute Google Maps ${out.name}`}
                           >
                             <i className="fa-solid fa-location-dot"></i>
-                            <span>Lokasi</span>
                           </a>
                         </div>
                       </div>
