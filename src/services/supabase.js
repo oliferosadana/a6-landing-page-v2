@@ -47,6 +47,8 @@ export async function fetchOutlets() {
       hours: o.hours || '07.00 - 22.00 WITA',
       mapsUrl: o.maps_url || o.mapsUrl || '',
       grabUrl: o.grab_url || o.grabUrl || '',
+      gofoodUrl: o.gofood_url || o.gofoodUrl || '',
+      shopeefoodUrl: o.shopeefood_url || o.shopeefoodUrl || '',
       distance: o.distance || '1.0 km',
       booths: Array.isArray(o.booths) ? o.booths : (typeof o.booths === 'string' ? JSON.parse(o.booths) : [])
     }));
@@ -291,6 +293,8 @@ export async function pushToSupabase(tableName, payload, operation = 'upsert') {
         hours: o.hours || '07.00 - 22.00 WITA',
         maps_url: o.mapsUrl || o.maps_url || '',
         grab_url: o.grabUrl || o.grab_url || '',
+        gofood_url: o.gofoodUrl || o.gofood_url || '',
+        shopeefood_url: o.shopeefoodUrl || o.shopeefood_url || '',
         distance: o.distance || '1.0 km',
         booths: Array.isArray(o.booths) ? o.booths : []
       }));

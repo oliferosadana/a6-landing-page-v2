@@ -1885,12 +1885,72 @@ h4,
   transform: translateY(0);
 }
 
-.grab-icon-mini {
+.grab-icon-mini,
+.gofood-icon-mini,
+.shopee-icon-mini {
   width: 13px;
   height: 13px;
   display: inline-block;
   vertical-align: middle;
   flex-shrink: 0;
+}
+
+.btn-booth-simple-gofood {
+  background: rgba(238, 39, 55, 0.08);
+  color: #EE2737;
+  border: 1px solid rgba(238, 39, 55, 0.32);
+  width: 25px;
+  height: 25px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.btn-booth-simple-gofood:hover {
+  background: #EE2737;
+  color: #ffffff;
+  border-color: #EE2737;
+  transform: translateY(-1px);
+}
+
+.btn-booth-simple-gofood:active {
+  transform: translateY(0);
+}
+
+.btn-booth-simple-shopee {
+  background: rgba(238, 77, 45, 0.08);
+  color: #EE4D2D;
+  border: 1px solid rgba(238, 77, 45, 0.32);
+  width: 25px;
+  height: 25px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.btn-booth-simple-shopee:hover {
+  background: #EE4D2D;
+  color: #ffffff;
+  border-color: #EE4D2D;
+  transform: translateY(-1px);
+}
+
+.btn-booth-simple-shopee:active {
+  transform: translateY(0);
 }
 
 .btn-booth-simple-maps {
@@ -1926,28 +1986,36 @@ h4,
 .outlet-network-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
 }
 
-.btn-network-wa {
+.btn-network-wa,
+.btn-network-grab,
+.btn-network-gofood,
+.btn-network-shopee,
+.btn-network-maps {
   flex: 1;
+  min-width: 0;
   height: 38px;
-  background: var(--accent-green);
-  color: #ffffff;
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 700;
-  padding: 0 10px;
+  padding: 0 4px;
   border-radius: var(--radius-md);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  transition: background-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+  gap: 4px;
+  transition: background-color var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
   white-space: nowrap;
+}
+
+.btn-network-wa {
+  background: var(--accent-green);
+  color: #ffffff;
 }
 
 .btn-network-wa:hover {
@@ -1962,24 +2030,8 @@ h4,
 }
 
 .btn-network-grab {
-  flex: 1;
-  height: 38px;
   background: #00B14F;
   color: #ffffff;
-  font-size: 12.5px;
-  font-weight: 700;
-  padding: 0 10px;
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: background-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
-  white-space: nowrap;
 }
 
 .btn-network-grab:hover {
@@ -1993,34 +2045,42 @@ h4,
   transform: translateY(0);
 }
 
-.grab-icon-svg {
-  width: 15px;
-  height: 15px;
-  flex-shrink: 0;
-  display: inline-block;
-  vertical-align: middle;
+.btn-network-gofood {
+  background: #EE2737;
+  color: #ffffff;
+}
+
+.btn-network-gofood:hover {
+  background: #d81c2b;
+  box-shadow: 0 4px 14px rgba(238, 39, 55, 0.38);
+  transform: translateY(-2px);
+  color: #ffffff;
+}
+
+.btn-network-gofood:active {
+  transform: translateY(0);
+}
+
+.btn-network-shopee {
+  background: #EE4D2D;
+  color: #ffffff;
+}
+
+.btn-network-shopee:hover {
+  background: #d63f20;
+  box-shadow: 0 4px 14px rgba(238, 77, 45, 0.38);
+  transform: translateY(-2px);
+  color: #ffffff;
+}
+
+.btn-network-shopee:active {
+  transform: translateY(0);
 }
 
 .btn-network-maps {
-  flex: 1;
-  height: 38px;
   background: var(--bg-surface-elevated);
   border: 1px solid var(--border-sand);
   color: var(--text-muted);
-  font-size: 12.5px;
-  font-weight: 700;
-  padding: 0 10px;
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
-  white-space: nowrap;
 }
 
 .btn-network-maps:hover {
@@ -2033,6 +2093,16 @@ h4,
 
 .btn-network-maps:active {
   transform: translateY(0);
+}
+
+.grab-icon-svg,
+.gofood-icon-svg,
+.shopee-icon-svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 /* Service Info Banner */
@@ -2478,25 +2548,52 @@ h4,
     max-height: 140px;
   }
 
+  .booth-simple-item {
+    gap: 6px;
+    padding: 5px 6px;
+  }
+
+  .booth-simple-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .booth-item-actions {
+    gap: 3.5px;
+    flex-shrink: 0;
+  }
+
   .outlet-network-actions {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 6px;
   }
 
   .btn-network-wa,
   .btn-network-grab,
-  .btn-network-maps {
-    flex: 1;
+  .btn-network-gofood,
+  .btn-network-shopee {
     height: 36px;
-    padding: 0 4px;
+    padding: 0 6px;
     font-size: 11.5px;
-    gap: 4px;
+    gap: 5px;
     justify-content: center;
   }
 
-  .grab-icon-svg {
-    width: 14px;
-    height: 14px;
+  .btn-network-maps {
+    grid-column: span 2;
+    height: 36px;
+    padding: 0 6px;
+    font-size: 11.5px;
+    gap: 5px;
+    justify-content: center;
+  }
+
+  .grab-icon-svg,
+  .gofood-icon-svg,
+  .shopee-icon-svg {
+    width: 13.5px;
+    height: 13.5px;
   }
 
   /* Search & Filter Bar */

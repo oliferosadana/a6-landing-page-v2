@@ -510,6 +510,8 @@ export default function AdminPage({ onBackToLanding }) {
       hours: fd.get('hours') || '07.00 - 22.00 WITA',
       mapsUrl: fd.get('mapsUrl') || '',
       grabUrl: fd.get('grabUrl') || '',
+      gofoodUrl: fd.get('gofoodUrl') || '',
+      shopeefoodUrl: fd.get('shopeefoodUrl') || '',
       image: outletImgPreview || fd.get('image') || '/assets/outlet_mt_haryono.jpg',
       distance: '1.0 km',
       booths: outletBooths
@@ -3178,6 +3180,16 @@ export default function AdminPage({ onBackToLanding }) {
               <div className="form-group">
                 <label>Tautan GrabFood (Opsional - default: pencarian otomatis)</label>
                 <input type="text" name="grabUrl" defaultValue={outletModal.data?.grabUrl || ''} placeholder="https://food.grab.com/id/id/restaurant/..." />
+              </div>
+
+              <div className="form-group">
+                <label>Tautan GoFood (Opsional - default: pencarian otomatis)</label>
+                <input type="text" name="gofoodUrl" defaultValue={outletModal.data?.gofoodUrl || ''} placeholder="https://gofood.co.id/..." />
+              </div>
+
+              <div className="form-group">
+                <label>Tautan ShopeeFood (Opsional - default: pencarian otomatis)</label>
+                <input type="text" name="shopeefoodUrl" defaultValue={outletModal.data?.shopeefoodUrl || ''} placeholder="https://shopee.co.id/..." />
               </div>
 
               {/* BOOTHS MANAGER SECTION */}
