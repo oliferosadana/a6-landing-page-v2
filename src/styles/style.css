@@ -1612,31 +1612,32 @@ h4,
 
 .outlet-network-card {
   background: #ffffff;
-  border: 1px solid var(--border-sand);
-  border-radius: var(--radius-lg);
+  border: 1px solid rgba(216, 201, 168, 0.45);
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: var(--shadow-card);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 200px 1fr;
   align-items: stretch;
 }
 
 .outlet-network-card:hover {
   border-color: var(--primary-olive);
-  box-shadow: var(--shadow-hover);
+  box-shadow: 0 8px 24px rgba(79, 91, 42, 0.08);
+  transform: translateY(-2px);
 }
 
 .outlet-network-media {
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 230px;
+  min-height: 200px;
   overflow: hidden;
   background: #ede3d1;
   pointer-events: auto;
   cursor: zoom-in;
-  border-right: 1px solid var(--border-sand-light, rgba(216, 201, 168, 0.45));
+  border-right: 1px solid rgba(216, 201, 168, 0.35);
 }
 
 .outlet-store-img {
@@ -1650,7 +1651,7 @@ h4,
 
 .outlet-network-media:hover .outlet-store-img,
 .outlet-network-card:hover .outlet-store-img {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 .outlet-area-pill,
@@ -1659,52 +1660,54 @@ h4,
 }
 
 .outlet-network-body {
-  padding: 18px 20px;
+  padding: 16px 18px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 13px;
+  gap: 12px;
 }
 
 .outlet-network-title {
-  font-size: 17.5px;
+  font-size: 16.5px;
+  font-weight: 700;
   line-height: 1.25;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   color: var(--text-main);
+  letter-spacing: -0.2px;
 }
 
 .outlet-meta-row {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 4px;
-  margin-bottom: 8px;
+  gap: 12px;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 .outlet-meta-item {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   font-size: 11.5px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text-muted);
-  background: var(--bg-surface-elevated);
-  padding: 5px 10px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-sand-light);
+  background: transparent;
+  padding: 0;
+  border: none;
   line-height: 1.35;
   white-space: nowrap;
-  transition: all var(--transition-fast);
+  transition: color var(--transition-fast);
 }
 
 .outlet-meta-item i {
-  font-size: 11.5px;
+  font-size: 11px;
   flex-shrink: 0;
 }
 
 .outlet-meta-item.outlet-meta-loc {
   color: var(--primary-olive-dark);
+  font-weight: 600;
 }
 
 .outlet-meta-item.outlet-meta-loc i {
@@ -1730,46 +1733,43 @@ h4,
 }
 
 .outlet-meta-item.outlet-meta-phone:hover {
-  background: rgba(37, 211, 102, 0.12);
-  border-color: #86efac;
   color: #15803d;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(22, 163, 74, 0.15);
+  text-decoration: underline;
 }
 
 .outlet-meta-dot {
   display: none;
 }
 
-/* Simple Booths List on Right */
+/* Minimalist Booths List on Right */
 .outlet-booths-simple {
-  background: #fbf9f4;
-  border: 1px dashed var(--border-sand);
-  border-radius: var(--radius-sm);
-  padding: 8px 10px;
+  background: #faf8f5;
+  border: 1px solid rgba(216, 201, 168, 0.45);
+  border-radius: 9px;
+  padding: 8px 11px;
   margin-top: 2px;
 }
 
 .booths-simple-title {
-  font-size: 11px;
-  font-weight: 800;
+  font-size: 10.5px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.5px;
   color: var(--primary-olive);
   display: flex;
   align-items: center;
   gap: 5px;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 .booths-simple-list {
   list-style: none;
-  padding: 0 4px 0 0;
+  padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  max-height: 145px;
+  gap: 3px;
+  max-height: 135px;
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
@@ -1795,10 +1795,16 @@ h4,
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 5px 8px;
-  background: #ffffff;
-  border: 1px solid var(--border-sand-light);
-  border-radius: var(--radius-sm);
+  padding: 4px 1px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(216, 201, 168, 0.25);
+  border-radius: 0;
+}
+
+.booth-simple-item:last-child {
+  border-bottom: none;
+  padding-bottom: 1px;
 }
 
 .booth-simple-text {
@@ -1808,13 +1814,13 @@ h4,
 }
 
 .booth-simple-name {
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-main);
   font-size: 11.5px;
 }
 
 .booth-simple-time {
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--text-dim);
   display: flex;
   align-items: center;
@@ -1987,7 +1993,7 @@ h4,
 .outlet-network-actions {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 
 .btn-network-wa,
@@ -1997,99 +2003,113 @@ h4,
 .btn-network-maps {
   flex: 1;
   min-width: 0;
-  height: 38px;
-  font-size: 11.5px;
-  font-weight: 700;
+  height: 34px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1px;
   padding: 0 4px;
-  border-radius: var(--radius-md);
+  border-radius: 7px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  transition: background-color var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  gap: 4.5px;
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
   white-space: nowrap;
 }
 
+/* WhatsApp: Soft green tint in rest, vibrant green on hover */
 .btn-network-wa {
-  background: var(--accent-green);
-  color: #ffffff;
+  background: rgba(37, 211, 102, 0.08);
+  color: #15803d;
+  border: 1px solid rgba(37, 211, 102, 0.28);
 }
 
 .btn-network-wa:hover {
-  background: #1ebc59;
-  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
-  transform: translateY(-2px);
+  background: #22c55e;
+  border-color: #22c55e;
   color: #ffffff;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+  transform: translateY(-1px);
 }
 
 .btn-network-wa:active {
   transform: translateY(0);
 }
 
+/* Grab: Soft green tint in rest, grab green on hover */
 .btn-network-grab {
-  background: #00B14F;
-  color: #ffffff;
+  background: rgba(0, 177, 79, 0.08);
+  color: #008a3e;
+  border: 1px solid rgba(0, 177, 79, 0.28);
 }
 
 .btn-network-grab:hover {
-  background: #009944;
-  box-shadow: 0 4px 14px rgba(0, 177, 79, 0.38);
-  transform: translateY(-2px);
+  background: #00B14F;
+  border-color: #00B14F;
   color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 177, 79, 0.25);
+  transform: translateY(-1px);
 }
 
 .btn-network-grab:active {
   transform: translateY(0);
 }
 
+/* GoFood: Soft red tint in rest, gofood red on hover */
 .btn-network-gofood {
-  background: #EE2737;
-  color: #ffffff;
+  background: rgba(238, 39, 55, 0.08);
+  color: #dc2626;
+  border: 1px solid rgba(238, 39, 55, 0.28);
 }
 
 .btn-network-gofood:hover {
-  background: #d81c2b;
-  box-shadow: 0 4px 14px rgba(238, 39, 55, 0.38);
-  transform: translateY(-2px);
+  background: #EE2737;
+  border-color: #EE2737;
   color: #ffffff;
+  box-shadow: 0 4px 12px rgba(238, 39, 55, 0.25);
+  transform: translateY(-1px);
 }
 
 .btn-network-gofood:active {
   transform: translateY(0);
 }
 
+/* ShopeeFood: Soft orange tint in rest, shopee orange on hover */
 .btn-network-shopee {
-  background: #EE4D2D;
-  color: #ffffff;
+  background: rgba(238, 77, 45, 0.08);
+  color: #ea580c;
+  border: 1px solid rgba(238, 77, 45, 0.28);
 }
 
 .btn-network-shopee:hover {
-  background: #d63f20;
-  box-shadow: 0 4px 14px rgba(238, 77, 45, 0.38);
-  transform: translateY(-2px);
+  background: #EE4D2D;
+  border-color: #EE4D2D;
   color: #ffffff;
+  box-shadow: 0 4px 12px rgba(238, 77, 45, 0.25);
+  transform: translateY(-1px);
 }
 
 .btn-network-shopee:active {
   transform: translateY(0);
 }
 
+/* Google Maps / Lokasi: Soft neutral olive tint in rest, olive on hover */
 .btn-network-maps {
-  background: var(--bg-surface-elevated);
-  border: 1px solid var(--border-sand);
-  color: var(--text-muted);
+  background: rgba(79, 91, 42, 0.05);
+  border: 1px solid rgba(79, 91, 42, 0.2);
+  color: var(--primary-olive);
 }
 
 .btn-network-maps:hover {
-  color: var(--primary-olive);
+  background: var(--primary-olive);
   border-color: var(--primary-olive);
-  background: #ffffff;
-  box-shadow: 0 4px 14px rgba(79, 91, 42, 0.15);
-  transform: translateY(-2px);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(79, 91, 42, 0.2);
+  transform: translateY(-1px);
 }
 
 .btn-network-maps:active {
@@ -2099,8 +2119,8 @@ h4,
 .grab-icon-svg,
 .gofood-icon-svg,
 .shopee-icon-svg {
-  width: 14px;
-  height: 14px;
+  width: 13.5px;
+  height: 13.5px;
   flex-shrink: 0;
   display: inline-block;
   vertical-align: middle;
