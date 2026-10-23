@@ -46,6 +46,7 @@ export async function fetchOutlets() {
       wa: o.wa || '',
       hours: o.hours || '07.00 - 22.00 WITA',
       mapsUrl: o.maps_url || o.mapsUrl || '',
+      grabUrl: o.grab_url || o.grabUrl || '',
       distance: o.distance || '1.0 km',
       booths: Array.isArray(o.booths) ? o.booths : (typeof o.booths === 'string' ? JSON.parse(o.booths) : [])
     }));
@@ -289,6 +290,7 @@ export async function pushToSupabase(tableName, payload, operation = 'upsert') {
         wa: (o.wa ? String(o.wa).replace(/[^0-9]/g, '') : '6281241075981'),
         hours: o.hours || '07.00 - 22.00 WITA',
         maps_url: o.mapsUrl || o.maps_url || '',
+        grab_url: o.grabUrl || o.grab_url || '',
         distance: o.distance || '1.0 km',
         booths: Array.isArray(o.booths) ? o.booths : []
       }));

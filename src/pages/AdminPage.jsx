@@ -509,6 +509,7 @@ export default function AdminPage({ onBackToLanding }) {
       wa: fd.get('wa') || '',
       hours: fd.get('hours') || '07.00 - 22.00 WITA',
       mapsUrl: fd.get('mapsUrl') || '',
+      grabUrl: fd.get('grabUrl') || '',
       image: outletImgPreview || fd.get('image') || '/assets/outlet_mt_haryono.jpg',
       distance: '1.0 km',
       booths: outletBooths
@@ -3172,6 +3173,11 @@ export default function AdminPage({ onBackToLanding }) {
               <div className="form-group">
                 <label>Tautan Google Maps</label>
                 <input type="text" name="mapsUrl" defaultValue={outletModal.data?.mapsUrl || ''} placeholder="https://maps.google.com/?q=Amanda+Brownies+Balikpapan" />
+              </div>
+
+              <div className="form-group">
+                <label>Tautan GrabFood (Opsional - default: pencarian otomatis)</label>
+                <input type="text" name="grabUrl" defaultValue={outletModal.data?.grabUrl || ''} placeholder="https://food.grab.com/id/id/restaurant/..." />
               </div>
 
               {/* BOOTHS MANAGER SECTION */}
