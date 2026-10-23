@@ -1926,24 +1926,28 @@ h4,
 .outlet-network-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .btn-network-wa {
   flex: 1;
-  height: 40px;
+  height: 38px;
   background: var(--accent-green);
   color: #ffffff;
-  font-size: 19px;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 0 10px;
   border-radius: var(--radius-md);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   transition: background-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
+  white-space: nowrap;
 }
 
 .btn-network-wa:hover {
@@ -1959,18 +1963,23 @@ h4,
 
 .btn-network-grab {
   flex: 1;
-  height: 40px;
+  height: 38px;
   background: #00B14F;
   color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 0 10px;
   border-radius: var(--radius-md);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   transition: background-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
+  white-space: nowrap;
 }
 
 .btn-network-grab:hover {
@@ -1985,8 +1994,8 @@ h4,
 }
 
 .grab-icon-svg {
-  width: 19px;
-  height: 19px;
+  width: 15px;
+  height: 15px;
   flex-shrink: 0;
   display: inline-block;
   vertical-align: middle;
@@ -1994,27 +2003,31 @@ h4,
 
 .btn-network-maps {
   flex: 1;
-  height: 40px;
+  height: 38px;
   background: var(--bg-surface-elevated);
   border: 1px solid var(--border-sand);
-  color: var(--primary-olive);
-  font-size: 17px;
+  color: var(--text-muted);
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 0 10px;
   border-radius: var(--radius-md);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
+  white-space: nowrap;
 }
 
 .btn-network-maps:hover {
-  color: #EA4335;
-  border-color: #EA4335;
+  color: var(--primary-olive);
+  border-color: var(--primary-olive);
   background: #ffffff;
-  box-shadow: 0 4px 14px rgba(234, 67, 53, 0.2);
+  box-shadow: 0 4px 14px rgba(79, 91, 42, 0.15);
   transform: translateY(-2px);
 }
 
@@ -2467,29 +2480,23 @@ h4,
 
   .outlet-network-actions {
     display: flex;
-    gap: 8px;
+    gap: 6px;
   }
 
   .btn-network-wa,
   .btn-network-grab,
   .btn-network-maps {
     flex: 1;
-    height: 38px;
-    padding: 0;
+    height: 36px;
+    padding: 0 4px;
+    font-size: 11.5px;
+    gap: 4px;
     justify-content: center;
   }
 
-  .btn-network-wa {
-    font-size: 18px;
-  }
-
   .grab-icon-svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .btn-network-maps {
-    font-size: 16px;
+    width: 14px;
+    height: 14px;
   }
 
   /* Search & Filter Bar */

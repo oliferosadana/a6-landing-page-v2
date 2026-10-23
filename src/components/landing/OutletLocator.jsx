@@ -225,7 +225,7 @@ export default function OutletLocator({ onOpenOutletModal }) {
                           </div>
                         )}
 
-                        {/* Actions: WA (logo), Grab (logo), Location (logo) - Icon Only */}
+                        {/* Actions: WA (icon + kata), Grab (icon + kata), Location (icon + kata) */}
                         <div className="outlet-network-actions">
                           <a
                             href={`https://wa.me/${out.wa}?text=${encodeURIComponent(`Halo ${out.name}, saya ingin pesan brownies Amanda. Mohon info varian yang ready saat ini.`)}`}
@@ -233,9 +233,9 @@ export default function OutletLocator({ onOpenOutletModal }) {
                             rel="noopener noreferrer"
                             className="btn-network-wa"
                             title={`Chat WhatsApp: ${out.name}`}
-                            aria-label={`Chat WhatsApp ${out.name}`}
                           >
                             <i className="fa-brands fa-whatsapp"></i>
+                            <span>Chat WA</span>
                           </a>
                           <a
                             href={out.grabUrl || `https://food.grab.com/id/id/restaurants?search=${encodeURIComponent('Amanda Brownies ' + (out.name || out.city))}`}
@@ -243,9 +243,9 @@ export default function OutletLocator({ onOpenOutletModal }) {
                             rel="noopener noreferrer"
                             className="btn-network-grab"
                             title={`Pesan via GrabFood: ${out.name}`}
-                            aria-label={`Pesan via GrabFood ${out.name}`}
                           >
-                            <GrabIcon size={18} className="grab-icon-svg" />
+                            <GrabIcon size={15} className="grab-icon-svg" />
+                            <span>Grab</span>
                           </a>
                           <a
                             href={out.mapsUrl || `https://maps.google.com/?q=${encodeURIComponent(out.name + ' ' + out.city)}`}
@@ -253,9 +253,9 @@ export default function OutletLocator({ onOpenOutletModal }) {
                             rel="noopener noreferrer"
                             className="btn-network-maps"
                             title={`Petunjuk Rute Google Maps: ${out.name}`}
-                            aria-label={`Petunjuk Rute Google Maps ${out.name}`}
                           >
                             <i className="fa-solid fa-location-dot"></i>
+                            <span>Lokasi</span>
                           </a>
                         </div>
                       </div>
