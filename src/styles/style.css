@@ -1662,8 +1662,8 @@ h4,
   padding: 18px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: flex-start;
+  gap: 13px;
 }
 
 .outlet-network-title {
@@ -1747,6 +1747,7 @@ h4,
   border: 1px dashed var(--border-sand);
   border-radius: var(--radius-sm);
   padding: 8px 10px;
+  margin-top: 2px;
 }
 
 .booths-simple-title {

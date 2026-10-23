@@ -191,7 +191,61 @@ export default function OutletLocator({ onOpenOutletModal }) {
                           </div>
                         </div>
 
-                        {/* Booths Counter List */}
+                        {/* Outlet Primary Actions (Directly beneath main outlet info) */}
+                        <div className="outlet-network-actions">
+                          <a
+                            href={`https://wa.me/${out.wa}?text=${encodeURIComponent(`Halo ${out.name}, saya ingin pesan brownies Amanda. Mohon info varian yang ready saat ini.`)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-network-wa"
+                            title={`Chat WhatsApp: ${out.name}`}
+                          >
+                            <i className="fa-brands fa-whatsapp"></i>
+                            <span>Chat WA</span>
+                          </a>
+                          <a
+                            href={out.grabUrl || `https://food.grab.com/id/id/restaurants?search=${encodeURIComponent('Amanda Brownies ' + (out.name || out.city))}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-network-grab"
+                            title={`Pesan via GrabFood: ${out.name}`}
+                          >
+                            <GrabIcon size={14} className="grab-icon-svg" />
+                            <span>Grab</span>
+                          </a>
+                          <a
+                            href={out.gofoodUrl || `https://gofood.co.id/id/search?q=${encodeURIComponent('Amanda Brownies ' + (out.name || out.city))}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-network-gofood"
+                            title={`Pesan via GoFood: ${out.name}`}
+                          >
+                            <GofoodIcon size={14} className="gofood-icon-svg" />
+                            <span>GoFood</span>
+                          </a>
+                          <a
+                            href={out.shopeefoodUrl || `https://shopee.co.id/search?keyword=${encodeURIComponent('Amanda Brownies ' + (out.name || out.city))}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-network-shopee"
+                            title={`Pesan via ShopeeFood: ${out.name}`}
+                          >
+                            <ShopeeIcon size={14} className="shopee-icon-svg" />
+                            <span>Shopee</span>
+                          </a>
+                          <a
+                            href={out.mapsUrl || `https://maps.google.com/?q=${encodeURIComponent(out.name + ' ' + out.city)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-network-maps"
+                            title={`Petunjuk Rute Google Maps: ${out.name}`}
+                          >
+                            <i className="fa-solid fa-location-dot"></i>
+                            <span>Lokasi</span>
+                          </a>
+                        </div>
+
+                        {/* Booths Counter List (Sub-points below main outlet actions) */}
                         {boothsList.length > 0 && (
                           <div className="outlet-booths-simple">
                             <div className="booths-simple-title">
@@ -274,60 +328,6 @@ export default function OutletLocator({ onOpenOutletModal }) {
                             </ul>
                           </div>
                         )}
-
-                        {/* Actions: WA, Grab, GoFood, Shopee, Location */}
-                        <div className="outlet-network-actions">
-                          <a
-                            href={`https://wa.me/${out.wa}?text=${encodeURIComponent(`Halo ${out.name}, saya ingin pesan brownies Amanda. Mohon info varian yang ready saat ini.`)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-network-wa"
-                            title={`Chat WhatsApp: ${out.name}`}
-                          >
-                            <i className="fa-brands fa-whatsapp"></i>
-                            <span>Chat WA</span>
-                          </a>
-                          <a
-                            href={out.grabUrl || `https://food.grab.com/id/id/restaurants?search=${encodeURIComponent('Amanda Brownies ' + (out.name || out.city))}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-network-grab"
-                            title={`Pesan via GrabFood: ${out.name}`}
-                          >
-                            <GrabIcon size={14} className="grab-icon-svg" />
-                            <span>Grab</span>
-                          </a>
-                          <a
-                            href={out.gofoodUrl || `https://gofood.co.id/id/search?q=${encodeURIComponent('Amanda Brownies ' + (out.name || out.city))}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-network-gofood"
-                            title={`Pesan via GoFood: ${out.name}`}
-                          >
-                            <GofoodIcon size={14} className="gofood-icon-svg" />
-                            <span>GoFood</span>
-                          </a>
-                          <a
-                            href={out.shopeefoodUrl || `https://shopee.co.id/search?keyword=${encodeURIComponent('Amanda Brownies ' + (out.name || out.city))}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-network-shopee"
-                            title={`Pesan via ShopeeFood: ${out.name}`}
-                          >
-                            <ShopeeIcon size={14} className="shopee-icon-svg" />
-                            <span>Shopee</span>
-                          </a>
-                          <a
-                            href={out.mapsUrl || `https://maps.google.com/?q=${encodeURIComponent(out.name + ' ' + out.city)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-network-maps"
-                            title={`Petunjuk Rute Google Maps: ${out.name}`}
-                          >
-                            <i className="fa-solid fa-location-dot"></i>
-                            <span>Lokasi</span>
-                          </a>
-                        </div>
                       </div>
                     </div>
                   );
