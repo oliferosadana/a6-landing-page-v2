@@ -164,7 +164,11 @@ export default function SpeedDialWa({ onOpenCsModal }) {
 
           {/* Morphing Icons */}
           <span className="wa-icon-state wa-icon-chat">
-            <i className="fa-brands fa-whatsapp"></i>
+            <img
+              src="/assets/cs_logo.png"
+              alt="Customer Service Amanda"
+              className="wa-cs-bubble-img"
+            />
           </span>
           <span className="wa-icon-state wa-icon-close">
             <i className="fa-solid fa-xmark"></i>
@@ -173,7 +177,7 @@ export default function SpeedDialWa({ onOpenCsModal }) {
           {/* Floating Pill Tooltip */}
           <span className="wa-floating-tooltip">
             <span>Ada pertanyaan?</span>
-            <strong>Hubungi Kami</strong>
+            <strong>Customer Service</strong>
           </span>
         </button>
       </div>

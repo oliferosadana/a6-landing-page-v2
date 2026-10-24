@@ -1338,3 +1338,70 @@ export const DEFAULT_PAYMENT_METHODS = [
     "instructions": "Kirim saldo ke nomor DANA/GoPay di atas dengan mencantumkan nomor invoice pada catatan transfer."
   }
 ];
+
+export const DEFAULT_CS_INQUIRIES = [
+  {
+    "id": "CS-130234",
+    "name": "Olip",
+    "phone": "6281253439968",
+    "outlet_id": "out-1",
+    "outlet_name": "Amanda Brownies MT Haryono (Pusat)",
+    "category": "catering",
+    "receipt_number": "INV-202610-098",
+    "receipt_image": null,
+    "receipt_images": [],
+    "message": "Halo admin, mau tanya untuk pesanan katering 50 box Brownies Kukus Original & Tiramisu Marble untuk acara kantor di Jl. MT Haryono apakah bisa diantar jam 10 pagi?",
+    "rating": 5,
+    "status": "NEW",
+    "admin_notes": null,
+    "created_at": "2026-10-24T09:15:00.000Z"
+  },
+  {
+    "id": "CS-130235",
+    "name": "Siti Rahmawati",
+    "phone": "6285244112233",
+    "outlet_id": "out-2",
+    "outlet_name": "Amanda Brownies Rapak Plaza",
+    "category": "stock",
+    "receipt_number": "",
+    "receipt_image": null,
+    "receipt_images": [],
+    "message": "Selamat siang, apakah stok Brownies Bakar Choco Chip dan Cheese Cream di outlet Rapak masih tersedia hari ini? Rencana mau mampir pulang kerja.",
+    "rating": 5,
+    "status": "IN_PROGRESS",
+    "admin_notes": "Sudah dihubungi via WA. Stok di outlet Rapak masih aman 15 box.",
+    "created_at": "2026-10-24T08:30:00.000Z"
+  },
+  {
+    "id": "CS-130236",
+    "name": "Budi Santoso",
+    "phone": "6281350998877",
+    "outlet_id": "out-3",
+    "outlet_name": "Amanda Brownies Sepinggan Airport Hub",
+    "category": "complaint",
+    "receipt_number": "STRUK-SPG-4412",
+    "receipt_image": "/assets/brownies_cheese_cream_1790255567593.jpg",
+    "receipt_images": ["/assets/brownies_cheese_cream_1790255567593.jpg"],
+    "message": "Struk pembelian varian Sarikaya Pandan tertukar dengan varian lain waktu beli oleh-oleh sebelum boarding di Sepinggan. Mohon konfirmasi nota fisiknya.",
+    "rating": 4,
+    "status": "RESOLVED",
+    "admin_notes": "Selesai ditangani. E-struk revisi sudah dikirimkan ke nomor WhatsApp pelanggan.",
+    "created_at": "2026-10-23T16:45:00.000Z"
+  },
+  {
+    "id": "CS-130237",
+    "name": "Dewi Lestari",
+    "phone": "6282199887766",
+    "outlet_id": "out-4",
+    "outlet_name": "Amanda Brownies Pasar Baru",
+    "category": "promo",
+    "receipt_number": "",
+    "receipt_image": null,
+    "receipt_images": [],
+    "message": "Mau tanya voucher diskon 20% gajian apakah berlaku untuk pembelian langsung di outlet Pasar Baru atau hanya pesanan WhatsApp?",
+    "rating": 5,
+    "status": "NEW",
+    "admin_notes": null,
+    "created_at": "2026-10-24T10:05:00.000Z"
+  }
+];
