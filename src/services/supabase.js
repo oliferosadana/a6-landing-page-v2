@@ -389,7 +389,21 @@ export async function pushToSupabase(tableName, payload, operation = 'upsert') {
       }];
     }
 
-    const { data, error } = await supabase.from(tableName).upsert(dbPayload, { onConflict: 'id' });
+    let { data, error } = await supabase.from(tableName).upsert(dbPayload, { onConflict: 'id' });
+
+    // Graceful schema degradation: If Supabase returns PGRST204 (column not found in schema cache),
+    // strip optional columns that may not yet exist on legacy tables (e.g., grab_url, gofood_url, shopeefood_url)
+    if (error && error.code === 'PGRST204' && tableName === 'outlets') {
+      console.warn(`[Supabase] Schema notice on ${tableName}: ${error.message}. Retrying with core schema...`);
+      const safePayload = dbPayload.map(o => {
+        const { grab_url, gofood_url, shopeefood_url, ...core } = o;
+        return core;
+      });
+      const retryResult = await supabase.from(tableName).upsert(safePayload, { onConflict: 'id' });
+      data = retryResult.data;
+      error = retryResult.error;
+    }
+
     if (error) console.error(`Supabase upsert [${tableName}] error:`, error.message);
     return { success: !error, data };
   } catch (err) {

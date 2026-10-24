@@ -26,7 +26,7 @@ ALTER TABLE public.outlet_categories DISABLE ROW LEVEL SECURITY;
 -- TABEL: public.outlets
 -- ----------------------------------------------------------
 CREATE TABLE IF NOT EXISTS public.outlets (
-id text NOT NULL,
+    id text NOT NULL,
     name text NOT NULL,
     city text NOT NULL,
     region text DEFAULT 'Kota Balikpapan'::text,
@@ -36,11 +36,19 @@ id text NOT NULL,
     wa text NOT NULL,
     hours text NOT NULL,
     maps_url text,
+    grab_url text,
+    gofood_url text,
+    shopeefood_url text,
     distance text,
     booths jsonb DEFAULT '[]'::jsonb,
     created_at timestamp with time zone DEFAULT now(),
     PRIMARY KEY (id)
 );
+
+-- Migration for existing deployments
+ALTER TABLE public.outlets ADD COLUMN IF NOT EXISTS grab_url text;
+ALTER TABLE public.outlets ADD COLUMN IF NOT EXISTS gofood_url text;
+ALTER TABLE public.outlets ADD COLUMN IF NOT EXISTS shopeefood_url text;
 
 ALTER TABLE public.outlets DISABLE ROW LEVEL SECURITY;
 
