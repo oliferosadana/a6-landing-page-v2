@@ -162,18 +162,14 @@ export default function CustomerServiceModal({ isOpen, onClose }) {
           addCsInquiry(payload);
         }
 
-        // 2. Trigger WAHA notification to Customer (auto-reply)
+        // 2 & 3. Trigger WAHA notification to Customer & Admin in parallel
         try {
-          sendCsStatusNotification(payload, 'NEW');
+          await Promise.allSettled([
+            sendCsStatusNotification(payload, 'NEW'),
+            sendAdminCsAlert(payload)
+          ]);
         } catch (wahaErr) {
-          console.warn('WAHA customer notify skipped:', wahaErr);
-        }
-
-        // 3. Trigger WAHA notification to Admin WA (double notification)
-        try {
-          sendAdminCsAlert(payload);
-        } catch (adminWaErr) {
-          console.warn('WAHA admin alert skipped:', adminWaErr);
+          console.warn('WAHA notifications skipped/error:', wahaErr);
         }
 
         setSubmittedTicket(payload);

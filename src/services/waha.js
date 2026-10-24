@@ -9,13 +9,13 @@ const STORAGE_KEY_LOGS = 'amanda_waha_logs';
 const STORAGE_KEY_MOCK_STATE = 'amanda_waha_mock_state';
 
 export const DEFAULT_WAHA_CONFIG = {
-  serverUrl: 'http://localhost:3000',
-  apiKey: '',
+  serverUrl: 'https://waha.oodana.my.id',
+  apiKey: 'zNqV4kRkBjEymlCgNxTiKLWZw75EgNg',
   sessionName: 'default',
   mockMode: false,
   autoNotifyAdminNew: true, // Kirim notifikasi otomatis ke WhatsApp Admin saat ada form baru
-  adminPhone: '6281241075981', // Nomor WhatsApp Admin penerima alert
-  autoNotifyCsNew: false,
+  adminPhone: '6281253439968', // Nomor WhatsApp Admin penerima alert
+  autoNotifyCsNew: true,
   autoNotifyCsProgress: true,
   autoNotifyCsResolved: true,
   senderName: 'Amanda Brownies Balikpapan'
@@ -93,7 +93,16 @@ export function getWahaConfig() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_CONFIG);
     if (raw) {
-      return { ...DEFAULT_WAHA_CONFIG, ...JSON.parse(raw) };
+      const parsed = JSON.parse(raw);
+      // Auto-migrate if local storage still has old localhost URL or old default phone
+      if (parsed.serverUrl && (parsed.serverUrl.includes('localhost') || parsed.serverUrl.includes('127.0.0.1'))) {
+        parsed.serverUrl = DEFAULT_WAHA_CONFIG.serverUrl;
+        parsed.apiKey = parsed.apiKey || DEFAULT_WAHA_CONFIG.apiKey;
+      }
+      if (parsed.adminPhone === '6281241075981' && DEFAULT_WAHA_CONFIG.adminPhone) {
+        parsed.adminPhone = DEFAULT_WAHA_CONFIG.adminPhone;
+      }
+      return { ...DEFAULT_WAHA_CONFIG, ...parsed };
     }
   } catch (e) {
     console.error('Error reading WAHA config:', e);
@@ -757,7 +766,18 @@ export function compileTemplate(templateText, variables = {}) {
  * Trigger CS Notification via WAHA based on status change
  */
 export async function sendCsStatusNotification(inquiry, newStatus, adminNotes = '') {
-  const config = getWahaConfig();
+  let config = getWahaConfig();
+
+  // Ensure live server config is resolved from Supabase if local cache is missing or on localhost
+  if (!config.serverUrl || config.serverUrl.includes('localhost') || !config.apiKey) {
+    try {
+      const dbConfig = await fetchWahaConfig();
+      if (dbConfig && dbConfig.serverUrl) {
+        config = { ...config, ...dbConfig };
+        try { localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config)); } catch(e) {}
+      }
+    } catch (e) {}
+  }
 
   // Check if auto notification is enabled for this status
   if (newStatus === 'NEW' && !config.autoNotifyCsNew) return null;
@@ -799,14 +819,27 @@ export async function sendCsStatusNotification(inquiry, newStatus, adminNotes = 
  * Send WhatsApp Notification directly to Admin phone when a customer submits a CS inquiry/form
  */
 export async function sendAdminCsAlert(inquiry) {
-  const config = getWahaConfig();
+  let config = getWahaConfig();
+
+  // Ensure live server config is resolved from Supabase if local cache is missing or on localhost
+  if (!config.serverUrl || config.serverUrl.includes('localhost') || !config.apiKey) {
+    try {
+      const dbConfig = await fetchWahaConfig();
+      if (dbConfig && dbConfig.serverUrl) {
+        config = { ...config, ...dbConfig };
+        try { localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config)); } catch(e) {}
+      }
+    } catch (e) {
+      console.warn('Failed to fetch live WAHA config from Supabase:', e);
+    }
+  }
 
   if (!config.autoNotifyAdminNew) {
     console.log('[WAHA] Auto alert to admin is disabled in config.');
     return null;
   }
 
-  const targetPhone = config.adminPhone || '6281241075981';
+  const targetPhone = config.adminPhone || '6281253439968';
   if (!targetPhone) return null;
 
   const tpl = WAHA_TEMPLATES.admin_cs_alert || {
