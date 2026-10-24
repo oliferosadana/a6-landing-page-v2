@@ -94,14 +94,21 @@ export function getWahaConfig() {
     const raw = localStorage.getItem(STORAGE_KEY_CONFIG);
     if (raw) {
       const parsed = JSON.parse(raw);
-      // Auto-migrate if local storage still has old localhost URL or old default phone
-      if (parsed.serverUrl && (parsed.serverUrl.includes('localhost') || parsed.serverUrl.includes('127.0.0.1'))) {
+      // Auto-migrate if local storage still has old localhost URL, old IP, or old default phone
+      if (
+        !parsed.serverUrl ||
+        parsed.serverUrl.includes('localhost') ||
+        parsed.serverUrl.includes('127.0.0.1') ||
+        parsed.serverUrl.includes('143.198.219.167') ||
+        !parsed.serverUrl.startsWith('https://')
+      ) {
         parsed.serverUrl = DEFAULT_WAHA_CONFIG.serverUrl;
-        parsed.apiKey = parsed.apiKey || DEFAULT_WAHA_CONFIG.apiKey;
+        parsed.apiKey = DEFAULT_WAHA_CONFIG.apiKey;
       }
-      if (parsed.adminPhone === '6281241075981' && DEFAULT_WAHA_CONFIG.adminPhone) {
+      if (!parsed.adminPhone || parsed.adminPhone === '6281241075981') {
         parsed.adminPhone = DEFAULT_WAHA_CONFIG.adminPhone;
       }
+      parsed.autoNotifyAdminNew = parsed.autoNotifyAdminNew ?? true;
       return { ...DEFAULT_WAHA_CONFIG, ...parsed };
     }
   } catch (e) {
@@ -807,7 +814,8 @@ export async function sendCsStatusNotification(inquiry, newStatus, adminNotes = 
     return await sendWahaTextMessage({
       to: inquiry.phone,
       text: messageText,
-      sessionName: config.sessionName
+      sessionName: config.sessionName,
+      customConfig: config
     });
   } catch (err) {
     console.error('Auto WAHA notification failed:', err);
@@ -873,7 +881,8 @@ export async function sendAdminCsAlert(inquiry) {
     return await sendWahaTextMessage({
       to: targetPhone,
       text: messageText,
-      sessionName: config.sessionName
+      sessionName: config.sessionName,
+      customConfig: config
     });
   } catch (err) {
     console.error('Admin WAHA alert failed:', err);

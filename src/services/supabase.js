@@ -431,12 +431,12 @@ export async function fetchWahaConfig() {
     }
 
     return {
-      serverUrl: data.server_url || 'http://143.198.219.167:3000',
-      apiKey: data.api_key || '',
+      serverUrl: data.server_url || 'https://waha.oodana.my.id',
+      apiKey: data.api_key || 'zNqV4kRkBjEymlCgNxTiKLWZw75EgNg',
       sessionName: data.session_name || 'default',
-      adminPhone: data.admin_phone || '6281241075981',
+      adminPhone: data.admin_phone || '6281253439968',
       autoNotifyAdminNew: data.auto_notify_admin_new ?? true,
-      autoNotifyCsNew: data.auto_notify_cs_new ?? false,
+      autoNotifyCsNew: data.auto_notify_cs_new ?? true,
       autoNotifyCsProgress: data.auto_notify_cs_progress ?? true,
       autoNotifyCsResolved: data.auto_notify_cs_resolved ?? true,
       mockMode: data.mock_mode ?? false,
