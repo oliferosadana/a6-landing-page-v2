@@ -1876,15 +1876,17 @@ export default function AdminPage({ onBackToLanding }) {
                                         <i className="fa-solid fa-bag-shopping"></i>
                                       </a>
                                     )}
-                                    <a
-                                      href={b.mapsUrl || o.mapsUrl || `https://maps.google.com/?q=${encodeURIComponent(b.name + ' ' + o.city)}`}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      style={{ color: '#3b82f6', fontSize: '13px' }}
-                                      title="Buka Google Maps Titik Booth"
-                                    >
-                                      <i className="fa-solid fa-map-location-dot"></i>
-                                    </a>
+                                    {b.mapsUrl && b.mapsUrl.trim() && (
+                                      <a
+                                        href={b.mapsUrl.trim()}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        style={{ color: '#3b82f6', fontSize: '13px' }}
+                                        title={`Google Maps: ${b.mapsUrl}`}
+                                      >
+                                        <i className="fa-solid fa-map-location-dot"></i>
+                                      </a>
+                                    )}
                                     <button
                                       type="button"
                                       className="btn-del-mini-booth"

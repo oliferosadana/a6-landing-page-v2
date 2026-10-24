@@ -203,36 +203,42 @@ export default function OutletLocator({ onOpenOutletModal }) {
                             <i className="fa-brands fa-whatsapp"></i>
                             <span>Chat WA</span>
                           </a>
-                          <a
-                            href={out.grabUrl || `https://food.grab.com/id/id/restaurants?search=${encodeURIComponent('Amanda Brownies ' + (out.name || out.city))}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-network-grab"
-                            title={`Pesan via GrabFood: ${out.name}`}
-                          >
-                            <GrabIcon size={14} className="grab-icon-svg" />
-                            <span>Grab</span>
-                          </a>
-                          <a
-                            href={out.gofoodUrl || `https://gofood.co.id/id/search?q=${encodeURIComponent('Amanda Brownies ' + (out.name || out.city))}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-network-gofood"
-                            title={`Pesan via GoFood: ${out.name}`}
-                          >
-                            <GofoodIcon size={14} className="gofood-icon-svg" />
-                            <span>GoFood</span>
-                          </a>
-                          <a
-                            href={out.shopeefoodUrl || `https://shopee.co.id/search?keyword=${encodeURIComponent('Amanda Brownies ' + (out.name || out.city))}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-network-shopee"
-                            title={`Pesan via ShopeeFood: ${out.name}`}
-                          >
-                            <ShopeeIcon size={14} className="shopee-icon-svg" />
-                            <span>Shopee</span>
-                          </a>
+                          {Boolean(out.grabUrl && out.grabUrl.trim()) && (
+                            <a
+                              href={out.grabUrl.trim()}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="btn-network-grab"
+                              title={`Pesan via GrabFood: ${out.name}`}
+                            >
+                              <GrabIcon size={14} className="grab-icon-svg" />
+                              <span>Grab</span>
+                            </a>
+                          )}
+                          {Boolean(out.gofoodUrl && out.gofoodUrl.trim()) && (
+                            <a
+                              href={out.gofoodUrl.trim()}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="btn-network-gofood"
+                              title={`Pesan via GoFood: ${out.name}`}
+                            >
+                              <GofoodIcon size={14} className="gofood-icon-svg" />
+                              <span>GoFood</span>
+                            </a>
+                          )}
+                          {Boolean(out.shopeefoodUrl && out.shopeefoodUrl.trim()) && (
+                            <a
+                              href={out.shopeefoodUrl.trim()}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="btn-network-shopee"
+                              title={`Pesan via ShopeeFood: ${out.name}`}
+                            >
+                              <ShopeeIcon size={14} className="shopee-icon-svg" />
+                              <span>Shopee</span>
+                            </a>
+                          )}
                           <a
                             href={out.mapsUrl || `https://maps.google.com/?q=${encodeURIComponent(out.name + ' ' + out.city)}`}
                             target="_blank"
@@ -254,9 +260,12 @@ export default function OutletLocator({ onOpenOutletModal }) {
                             </div>
                             <ul className="booths-simple-list">
                               {boothsList.map((bth, bIdx) => {
-                                const mapsQuery = encodeURIComponent(`${bth.name} ${out.city}`);
-                                const mapsUrl = bth.mapsUrl || `https://maps.google.com/?q=${mapsQuery}`;
                                 const waMsg = encodeURIComponent(`Halo ${bth.name}, saya ingin memesan brownies Amanda. Mohon info ketersediaan stok.`);
+                                const hasWa = Boolean(bth.wa || out.wa);
+                                const hasGrab = Boolean(bth.grabUrl && bth.grabUrl.trim());
+                                const hasGofood = Boolean(bth.gofoodUrl && bth.gofoodUrl.trim());
+                                const hasShopee = Boolean(bth.shopeefoodUrl && bth.shopeefoodUrl.trim());
+                                const hasMaps = Boolean(bth.mapsUrl && bth.mapsUrl.trim());
 
                                 return (
                                   <li key={bIdx} className="booth-simple-item">
@@ -271,56 +280,66 @@ export default function OutletLocator({ onOpenOutletModal }) {
                                       </span>
                                     </div>
                                     <div className="booth-item-actions">
-                                      <a
-                                        href={`https://wa.me/${bth.wa || out.wa}?text=${waMsg}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="btn-booth-simple-wa"
-                                        title={`Chat WhatsApp ${bth.name}`}
-                                        aria-label={`Chat WhatsApp ${bth.name}`}
-                                      >
-                                        <i className="fa-brands fa-whatsapp"></i>
-                                      </a>
-                                      <a
-                                        href={bth.grabUrl || out.grabUrl || `https://food.grab.com/id/id/restaurants?search=${encodeURIComponent('Amanda Brownies ' + bth.name)}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="btn-booth-simple-grab"
-                                        title={`Pesan via GrabFood ${bth.name}`}
-                                        aria-label={`Pesan via GrabFood ${bth.name}`}
-                                      >
-                                        <GrabIcon size={13} className="grab-icon-mini" />
-                                      </a>
-                                      <a
-                                        href={bth.gofoodUrl || out.gofoodUrl || `https://gofood.co.id/id/search?q=${encodeURIComponent('Amanda Brownies ' + bth.name)}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="btn-booth-simple-gofood"
-                                        title={`Pesan via GoFood ${bth.name}`}
-                                        aria-label={`Pesan via GoFood ${bth.name}`}
-                                      >
-                                        <GofoodIcon size={13} className="gofood-icon-mini" />
-                                      </a>
-                                      <a
-                                        href={bth.shopeefoodUrl || out.shopeefoodUrl || `https://shopee.co.id/search?keyword=${encodeURIComponent('Amanda Brownies ' + bth.name)}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="btn-booth-simple-shopee"
-                                        title={`Pesan via ShopeeFood ${bth.name}`}
-                                        aria-label={`Pesan via ShopeeFood ${bth.name}`}
-                                      >
-                                        <ShopeeIcon size={13} className="shopee-icon-mini" />
-                                      </a>
-                                      <a
-                                        href={mapsUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="btn-booth-simple-maps"
-                                        title={`Petunjuk Arah Google Maps ${bth.name}`}
-                                        aria-label={`Petunjuk Arah Google Maps ${bth.name}`}
-                                      >
-                                        <i className="fa-solid fa-map-location-dot"></i>
-                                      </a>
+                                      {hasWa && (
+                                        <a
+                                          href={`https://wa.me/${bth.wa || out.wa}?text=${waMsg}`}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="btn-booth-simple-wa"
+                                          title={`Chat WhatsApp ${bth.name}`}
+                                          aria-label={`Chat WhatsApp ${bth.name}`}
+                                        >
+                                          <i className="fa-brands fa-whatsapp"></i>
+                                        </a>
+                                      )}
+                                      {hasGrab && (
+                                        <a
+                                          href={bth.grabUrl.trim()}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="btn-booth-simple-grab"
+                                          title={`Pesan via GrabFood ${bth.name}`}
+                                          aria-label={`Pesan via GrabFood ${bth.name}`}
+                                        >
+                                          <GrabIcon size={13} className="grab-icon-mini" />
+                                        </a>
+                                      )}
+                                      {hasGofood && (
+                                        <a
+                                          href={bth.gofoodUrl.trim()}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="btn-booth-simple-gofood"
+                                          title={`Pesan via GoFood ${bth.name}`}
+                                          aria-label={`Pesan via GoFood ${bth.name}`}
+                                        >
+                                          <GofoodIcon size={13} className="gofood-icon-mini" />
+                                        </a>
+                                      )}
+                                      {hasShopee && (
+                                        <a
+                                          href={bth.shopeefoodUrl.trim()}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="btn-booth-simple-shopee"
+                                          title={`Pesan via ShopeeFood ${bth.name}`}
+                                          aria-label={`Pesan via ShopeeFood ${bth.name}`}
+                                        >
+                                          <ShopeeIcon size={13} className="shopee-icon-mini" />
+                                        </a>
+                                      )}
+                                      {hasMaps && (
+                                        <a
+                                          href={bth.mapsUrl.trim()}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="btn-booth-simple-maps"
+                                          title={`Petunjuk Arah Google Maps ${bth.name}`}
+                                          aria-label={`Petunjuk Arah Google Maps ${bth.name}`}
+                                        >
+                                          <i className="fa-solid fa-map-location-dot"></i>
+                                        </a>
+                                      )}
                                     </div>
                                   </li>
                                 );
