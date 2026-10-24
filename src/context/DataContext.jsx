@@ -52,10 +52,11 @@ export function DataProvider({ children }) {
     setCsLoading(true);
     try {
       const data = await fetchCsInquiries();
-      if (Array.isArray(data)) {
+      if (Array.isArray(data) && data.length > 0) {
         setCsInquiries(data);
         try {
           localStorage.setItem('amanda_cs_cache', JSON.stringify(data));
+          localStorage.setItem('amanda_cs_inquiries', JSON.stringify(data));
         } catch (e) {
           // Fallback if local storage quota exceeded: save metadata without heavy image strings
           const lightweight = data.map(d => ({
@@ -64,9 +65,27 @@ export function DataProvider({ children }) {
             receipt_images: (d.receipt_images || []).length > 0 ? ['has_image'] : []
           }));
           localStorage.setItem('amanda_cs_cache', JSON.stringify(lightweight));
+          localStorage.setItem('amanda_cs_inquiries', JSON.stringify(lightweight));
         }
+        return data;
+      } else {
+        // If Supabase returned 0 items (e.g. Row Level Security policy blocks anon SELECT or table is empty),
+        // DO NOT wipe existing tickets! Fallback to cached tickets or realistic default tickets
+        const cachedRaw = localStorage.getItem('amanda_cs_cache') || localStorage.getItem('amanda_cs_inquiries');
+        if (cachedRaw) {
+          try {
+            const parsed = JSON.parse(cachedRaw);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              setCsInquiries(parsed);
+              return parsed;
+            }
+          } catch (e) {}
+        }
+        const defaults = await import('../data/defaults.js');
+        const fallback = defaults.DEFAULT_CS_INQUIRIES || [];
+        setCsInquiries(prev => (prev && prev.length > 0 ? prev : fallback));
+        return fallback;
       }
-      return data || [];
     } catch (err) {
       console.warn('Error refreshing CS inquiries:', err);
       return [];
@@ -211,7 +230,7 @@ export function DataProvider({ children }) {
 
     // 1. Stale-While-Revalidate: Instant read from local IndexedDB cache & CS cache
     try {
-      const cachedCs = localStorage.getItem('amanda_cs_cache');
+      const cachedCs = localStorage.getItem('amanda_cs_cache') || localStorage.getItem('amanda_cs_inquiries');
       if (cachedCs) {
         const parsed = JSON.parse(cachedCs);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -259,6 +278,7 @@ export function DataProvider({ children }) {
           setPromos(prev => (prev.length > 0 ? prev : defaults.DEFAULT_PROMOS));
           setPricelists(prev => (prev.length > 0 ? prev : defaults.DEFAULT_PRICELISTS));
           setTicker(prev => (prev.length > 0 ? prev : defaults.DEFAULT_TICKER));
+          setCsInquiries(prev => (prev.length > 0 ? prev : (defaults.DEFAULT_CS_INQUIRIES || [])));
           setOutletsLoading(false);
           setCategoriesLoading(false);
           setProductsLoading(false);
@@ -278,14 +298,16 @@ export function DataProvider({ children }) {
       .on('postgres_changes', { event: '*', schema: 'public' }, (payload) => {
         console.log('⚡ [Realtime V2] Event received on table:', payload.table);
         if (payload.table === 'cs_inquiries') {
-          if (payload.eventType === 'INSERT' || payload.new) {
+          if (payload.new && payload.new.id) {
             const ticket = payload.new;
-            if (ticket && typeof window !== 'undefined') {
+            addCsInquiry(ticket);
+            if (typeof window !== 'undefined') {
               window.dispatchEvent(new CustomEvent('amanda_new_cs_ticket', { detail: ticket }));
             }
+          } else {
+            // Selective refresh for CS tickets
+            refreshCsInquiries();
           }
-          // Fast selective refresh for CS tickets only
-          refreshCsInquiries();
         } else {
           refreshAllData();
         }
@@ -308,8 +330,18 @@ export function DataProvider({ children }) {
       updated = [...outlets, outletData];
     }
     setOutlets(updated);
-    showToast(`Outlet ${outletData.name} berhasil disimpan.`);
-    await pushToSupabase('outlets', updated);
+    const targetOutlet = updated.find(o => o.id === outletData.id) || outletData;
+    const res = await pushToSupabase('outlets', targetOutlet);
+    if (res && res.success) {
+      showToast(`Outlet ${outletData.name} berhasil disimpan ke database.`, 'success');
+      try {
+        setCache(CACHE_KEY, { outlets: updated, categories, products, promos, pricelists, ticker });
+      } catch (e) {}
+    } else {
+      console.error('Error saving outlet to Supabase:', res?.error);
+      showToast(`Gagal menyimpan ke database: ${res?.error?.message || 'Koneksi error'}`, 'error');
+    }
+    return res;
   };
 
   const removeOutlet = async (id) => {
@@ -391,6 +423,7 @@ export function DataProvider({ children }) {
     setCsInquiries(updated);
     try {
       localStorage.setItem('amanda_cs_cache', JSON.stringify(updated));
+      localStorage.setItem('amanda_cs_inquiries', JSON.stringify(updated));
     } catch (e) {}
     showToast(`Status tiket #${id} berhasil diperbarui.`);
     const updatePayload = { id, status: newStatus };
@@ -405,6 +438,7 @@ export function DataProvider({ children }) {
       const updated = [ticket, ...prev.filter(c => c.id !== ticket.id)];
       try {
         localStorage.setItem('amanda_cs_cache', JSON.stringify(updated));
+        localStorage.setItem('amanda_cs_inquiries', JSON.stringify(updated));
       } catch (e) {}
       return updated;
     });
@@ -434,6 +468,7 @@ export function DataProvider({ children }) {
     setCsInquiries(updated);
     try {
       localStorage.setItem('amanda_cs_cache', JSON.stringify(updated));
+      localStorage.setItem('amanda_cs_inquiries', JSON.stringify(updated));
     } catch (e) {}
     showToast(`Tiket #${id} berhasil dihapus.`);
     await pushToSupabase('cs_inquiries', id, 'delete');
@@ -450,6 +485,11 @@ export function DataProvider({ children }) {
       setPromos(defaults.DEFAULT_PROMOS);
       setPricelists(defaults.DEFAULT_PRICELISTS);
       setTicker(defaults.DEFAULT_TICKER);
+      setCsInquiries(defaults.DEFAULT_CS_INQUIRIES || []);
+      try {
+        localStorage.setItem('amanda_cs_cache', JSON.stringify(defaults.DEFAULT_CS_INQUIRIES || []));
+        localStorage.setItem('amanda_cs_inquiries', JSON.stringify(defaults.DEFAULT_CS_INQUIRIES || []));
+      } catch (e) {}
       await Promise.all([
         pushToSupabase('outlets', defaults.DEFAULT_OUTLETS),
         pushToSupabase('outlet_categories', defaults.DEFAULT_OUTLET_CATEGORIES),
