@@ -430,7 +430,10 @@ export default function AdminPage({ onBackToLanding }) {
       location: '',
       wa: outletModal.data?.wa || '6281241075981',
       hours: '08.00 - 22.00 WITA',
-      mapsUrl: ''
+      mapsUrl: '',
+      grabUrl: '',
+      gofoodUrl: '',
+      shopeefoodUrl: ''
     };
     setOutletBooths([...outletBooths, newBooth]);
   };
@@ -1840,6 +1843,39 @@ export default function AdminPage({ onBackToLanding }) {
                                     >
                                       <i className="fa-brands fa-whatsapp"></i>
                                     </a>
+                                    {b.grabUrl && (
+                                      <a
+                                        href={b.grabUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        style={{ color: '#00B14F', fontSize: '13px' }}
+                                        title={`GrabFood: ${b.grabUrl}`}
+                                      >
+                                        <i className="fa-solid fa-motorcycle"></i>
+                                      </a>
+                                    )}
+                                    {b.gofoodUrl && (
+                                      <a
+                                        href={b.gofoodUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        style={{ color: '#EE2737', fontSize: '13px' }}
+                                        title={`GoFood: ${b.gofoodUrl}`}
+                                      >
+                                        <i className="fa-solid fa-bowl-food"></i>
+                                      </a>
+                                    )}
+                                    {b.shopeefoodUrl && (
+                                      <a
+                                        href={b.shopeefoodUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        style={{ color: '#EE4D2D', fontSize: '13px' }}
+                                        title={`ShopeeFood: ${b.shopeefoodUrl}`}
+                                      >
+                                        <i className="fa-solid fa-bag-shopping"></i>
+                                      </a>
+                                    )}
                                     <a
                                       href={b.mapsUrl || o.mapsUrl || `https://maps.google.com/?q=${encodeURIComponent(b.name + ' ' + o.city)}`}
                                       target="_blank"
@@ -3290,17 +3326,59 @@ export default function AdminPage({ onBackToLanding }) {
                           </div>
                         </div>
 
-                        <div className="booth-editor-row" style={{ marginTop: '2px' }}>
-                          <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '3px', display: 'block', fontWeight: 600 }}>
-                            <i className="fa-solid fa-map-location-dot" style={{ color: '#e74c3c', marginRight: '4px' }}></i> Tautan Google Maps Titik Booth
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="Contoh: https://maps.app.goo.gl/... atau https://maps.google.com/?q=..."
-                            value={booth.mapsUrl || ''}
-                            onChange={(e) => handleUpdateBoothField(bIdx, 'mapsUrl', e.target.value)}
-                            style={{ width: '100%', padding: '7px 10px', fontSize: '12px', borderRadius: '6px', border: '1px solid var(--ch-sand-border)', boxSizing: 'border-box' }}
-                          />
+                        {/* Links Section: Maps & Food Delivery */}
+                        <div style={{ marginTop: '4px', paddingTop: '8px', borderTop: '1px dashed rgba(216, 201, 168, 0.6)' }}>
+                          <div className="booth-editor-row" style={{ marginBottom: '8px' }}>
+                            <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '3px', display: 'block', fontWeight: 600 }}>
+                              <i className="fa-solid fa-map-location-dot" style={{ color: '#e74c3c', marginRight: '4px' }}></i> Tautan Google Maps Titik Booth
+                            </label>
+                            <input
+                              type="text"
+                              placeholder="Contoh: https://maps.app.goo.gl/... atau https://maps.google.com/?q=..."
+                              value={booth.mapsUrl || ''}
+                              onChange={(e) => handleUpdateBoothField(bIdx, 'mapsUrl', e.target.value)}
+                              style={{ width: '100%', padding: '7px 10px', fontSize: '12px', borderRadius: '6px', border: '1px solid var(--ch-sand-border)', boxSizing: 'border-box' }}
+                            />
+                          </div>
+
+                          <div className="booth-editor-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '8px' }}>
+                            <div>
+                              <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '3px', display: 'block', fontWeight: 600 }}>
+                                <i className="fa-solid fa-motorcycle" style={{ color: '#00B14F', marginRight: '4px' }}></i> GrabFood Booth (Opsional)
+                              </label>
+                              <input
+                                type="text"
+                                placeholder="https://food.grab.com/..."
+                                value={booth.grabUrl || ''}
+                                onChange={(e) => handleUpdateBoothField(bIdx, 'grabUrl', e.target.value)}
+                                style={{ width: '100%', padding: '7px 10px', fontSize: '12px', borderRadius: '6px', border: '1px solid var(--ch-sand-border)', boxSizing: 'border-box' }}
+                              />
+                            </div>
+                            <div>
+                              <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '3px', display: 'block', fontWeight: 600 }}>
+                                <i className="fa-solid fa-bowl-food" style={{ color: '#EE2737', marginRight: '4px' }}></i> GoFood Booth (Opsional)
+                              </label>
+                              <input
+                                type="text"
+                                placeholder="https://gofood.co.id/..."
+                                value={booth.gofoodUrl || ''}
+                                onChange={(e) => handleUpdateBoothField(bIdx, 'gofoodUrl', e.target.value)}
+                                style={{ width: '100%', padding: '7px 10px', fontSize: '12px', borderRadius: '6px', border: '1px solid var(--ch-sand-border)', boxSizing: 'border-box' }}
+                              />
+                            </div>
+                            <div>
+                              <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '3px', display: 'block', fontWeight: 600 }}>
+                                <i className="fa-solid fa-bag-shopping" style={{ color: '#EE4D2D', marginRight: '4px' }}></i> ShopeeFood Booth (Opsional)
+                              </label>
+                              <input
+                                type="text"
+                                placeholder="https://shopee.co.id/..."
+                                value={booth.shopeefoodUrl || ''}
+                                onChange={(e) => handleUpdateBoothField(bIdx, 'shopeefoodUrl', e.target.value)}
+                                style={{ width: '100%', padding: '7px 10px', fontSize: '12px', borderRadius: '6px', border: '1px solid var(--ch-sand-border)', boxSizing: 'border-box' }}
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     ))
