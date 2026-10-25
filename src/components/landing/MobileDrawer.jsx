@@ -78,39 +78,39 @@ export default function MobileDrawer({ isOpen, onClose, onOpenAdmin }) {
                     </li>
                   ) : (
                     outlets.map((out) => {
-                    const booths = out.booths || [];
-                    return (
-                      <li key={out.id} className="drawer-outlet-subitem">
-                        <a
-                          href="#outlet"
-                          className="drawer-outlet-parent-link"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleSelectOutlet(out);
-                          }}
-                        >
-                          <i className="fa-solid fa-shop"></i> {out.name}
-                        </a>
-                        {booths.length > 0 && (
-                          <ul className="drawer-sub-booths">
-                            {booths.map((b, bIdx) => (
-                              <li key={bIdx} className="drawer-sub-booth-item">
-                                <a
-                                  href="#outlet"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    handleSelectOutlet(out);
-                                  }}
-                                >
-                                  <i className="fa-solid fa-circle-dot"></i> {b.name}
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </li>
-                    );
-                  }))}
+                      const booths = out.booths || [];
+                      return (
+                        <li key={out.id} className="drawer-outlet-subitem">
+                          <a
+                            href="#outlet"
+                            className="drawer-outlet-parent-link"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleSelectOutlet(out);
+                            }}
+                          >
+                            <i className="fa-solid fa-shop"></i> {out.name}
+                          </a>
+                          {booths.length > 0 && (
+                            <ul className="drawer-sub-booths">
+                              {booths.map((b, bIdx) => (
+                                <li key={bIdx} className="drawer-sub-booth-item">
+                                  <a
+                                    href="#outlet"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      handleSelectOutlet(out);
+                                    }}
+                                  >
+                                    <i className="fa-solid fa-circle-dot"></i> {b.name}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </li>
+                      );
+                    }))}
                 </ul>
               )}
             </li>
@@ -124,7 +124,7 @@ export default function MobileDrawer({ isOpen, onClose, onOpenAdmin }) {
                 <i className="fa-solid fa-headset"></i> <span>Layanan & Pengaduan CS</span>
               </a>
             </li>
-            <li>
+            {/* <li>
               <a
                 href="#admin"
                 onClick={(e) => {
@@ -137,7 +137,7 @@ export default function MobileDrawer({ isOpen, onClose, onOpenAdmin }) {
               >
                 <i className="fa-solid fa-user-shield"></i> <span>Admin Portal CMS</span>
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
       </aside>

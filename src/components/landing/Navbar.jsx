@@ -58,39 +58,39 @@ export default function Navbar({ onOpenMobileMenu, onOpenAdmin }) {
                   </li>
                 ) : (
                   outlets.map((out) => {
-                  const booths = out.booths || [];
-                  return (
-                    <li key={out.id} className="dropdown-outlet-item">
-                      <a
-                        href="#outlet"
-                        className="dropdown-parent-link"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleSelectOutlet(out);
-                        }}
-                      >
-                        <i className="fa-solid fa-shop"></i> {out.name}
-                      </a>
-                      {booths.length > 0 && (
-                        <ul className="dropdown-sub-booths">
-                          {booths.map((b, bIdx) => (
-                            <li key={bIdx} className="dropdown-sub-booth-item">
-                              <a
-                                href="#outlet"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  handleSelectOutlet(out);
-                                }}
-                              >
-                                <i className="fa-solid fa-circle-dot"></i> {b.name}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </li>
-                  );
-                }))}
+                    const booths = out.booths || [];
+                    return (
+                      <li key={out.id} className="dropdown-outlet-item">
+                        <a
+                          href="#outlet"
+                          className="dropdown-parent-link"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleSelectOutlet(out);
+                          }}
+                        >
+                          <i className="fa-solid fa-shop"></i> {out.name}
+                        </a>
+                        {booths.length > 0 && (
+                          <ul className="dropdown-sub-booths">
+                            {booths.map((b, bIdx) => (
+                              <li key={bIdx} className="dropdown-sub-booth-item">
+                                <a
+                                  href="#outlet"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    handleSelectOutlet(out);
+                                  }}
+                                >
+                                  <i className="fa-solid fa-circle-dot"></i> {b.name}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    );
+                  }))}
               </ul>
             </li>
             <li><a href="#katalog1">Katalog Menu</a></li>
@@ -113,14 +113,14 @@ export default function Navbar({ onOpenMobileMenu, onOpenAdmin }) {
             <i className="fa-solid fa-magnifying-glass"></i>
           </button>
 
-          <button
+          {/* <button
             className="btn-icon-badge"
             onClick={onOpenAdmin}
             title="Admin CMS Portal"
             style={{ color: 'var(--primary-gold)' }}
           >
             <i className="fa-solid fa-user-shield"></i>
-          </button>
+          </button> */}
 
           <button
             className="btn-hamburger"
