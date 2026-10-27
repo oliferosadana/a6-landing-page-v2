@@ -375,10 +375,10 @@ export async function pushToSupabase(tableName, payload, operation = 'upsert') {
       const c = Array.isArray(payload) ? payload[0] : payload;
       dbPayload = [{
         id: c.id || 'default',
-        server_url: c.serverUrl || c.server_url || 'http://143.198.219.167:3000',
+        server_url: c.serverUrl || c.server_url || 'https://waha.oodana.my.id',
         api_key: c.apiKey || c.api_key || '',
         session_name: c.sessionName || c.session_name || 'default',
-        admin_phone: c.adminPhone || c.admin_phone || '6281241075981',
+        admin_phone: c.adminPhone || c.admin_phone || '628115954488',
         auto_notify_admin_new: c.autoNotifyAdminNew !== undefined ? c.autoNotifyAdminNew : (c.auto_notify_admin_new ?? true),
         auto_notify_cs_new: c.autoNotifyCsNew !== undefined ? c.autoNotifyCsNew : (c.auto_notify_cs_new ?? false),
         auto_notify_cs_progress: c.autoNotifyCsProgress !== undefined ? c.autoNotifyCsProgress : (c.auto_notify_cs_progress ?? true),
@@ -434,7 +434,7 @@ export async function fetchWahaConfig() {
       serverUrl: data.server_url || 'https://waha.oodana.my.id',
       apiKey: data.api_key || 'zNqV4kRkBjEymlCgNxTiKLWZw75EgNg',
       sessionName: data.session_name || 'default',
-      adminPhone: data.admin_phone || '6281253439968',
+      adminPhone: data.admin_phone || '628115954488',
       autoNotifyAdminNew: data.auto_notify_admin_new ?? true,
       autoNotifyCsNew: data.auto_notify_cs_new ?? true,
       autoNotifyCsProgress: data.auto_notify_cs_progress ?? true,

@@ -14,7 +14,7 @@ export const DEFAULT_WAHA_CONFIG = {
   sessionName: 'default',
   mockMode: false,
   autoNotifyAdminNew: true, // Kirim notifikasi otomatis ke WhatsApp Admin saat ada form baru
-  adminPhone: '6281253439968', // Nomor WhatsApp Admin penerima alert
+  adminPhone: '628115954488', // Nomor WhatsApp Admin penerima alert (disinkronkan dari database)
   autoNotifyCsNew: true,
   autoNotifyCsProgress: true,
   autoNotifyCsResolved: true,
@@ -772,14 +772,14 @@ export function compileTemplate(templateText, variables = {}) {
 /**
  * Trigger CS Notification via WAHA based on status change
  */
-export async function sendCsStatusNotification(inquiry, newStatus, adminNotes = '') {
-  let config = getWahaConfig();
+export async function sendCsStatusNotification(inquiry, newStatus, adminNotes = '', customConfig = null) {
+  let config = customConfig || getWahaConfig();
 
-  // Ensure live server config is resolved from Supabase if local cache is missing or on localhost
-  if (!config.serverUrl || config.serverUrl.includes('localhost') || !config.apiKey) {
+  // Selalu pastikan konfigurasi WAHA tersinkron dari database Supabase
+  if (!customConfig) {
     try {
       const dbConfig = await fetchWahaConfig();
-      if (dbConfig && dbConfig.serverUrl) {
+      if (dbConfig) {
         config = { ...config, ...dbConfig };
         try { localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config)); } catch(e) {}
       }
@@ -826,14 +826,14 @@ export async function sendCsStatusNotification(inquiry, newStatus, adminNotes = 
 /**
  * Send WhatsApp Notification directly to Admin phone when a customer submits a CS inquiry/form
  */
-export async function sendAdminCsAlert(inquiry) {
-  let config = getWahaConfig();
+export async function sendAdminCsAlert(inquiry, customConfig = null) {
+  let config = customConfig || getWahaConfig();
 
-  // Ensure live server config is resolved from Supabase if local cache is missing or on localhost
-  if (!config.serverUrl || config.serverUrl.includes('localhost') || !config.apiKey) {
+  // SELALU tarik konfigurasi terbaru langsung dari Supabase database agar sinkron dengan yang diinput di CMS
+  if (!customConfig) {
     try {
       const dbConfig = await fetchWahaConfig();
-      if (dbConfig && dbConfig.serverUrl) {
+      if (dbConfig) {
         config = { ...config, ...dbConfig };
         try { localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config)); } catch(e) {}
       }
@@ -842,13 +842,16 @@ export async function sendAdminCsAlert(inquiry) {
     }
   }
 
-  if (!config.autoNotifyAdminNew) {
+  if (config.autoNotifyAdminNew === false) {
     console.log('[WAHA] Auto alert to admin is disabled in config.');
     return null;
   }
 
-  const targetPhone = config.adminPhone || '6281253439968';
-  if (!targetPhone) return null;
+  const targetPhone = config.adminPhone;
+  if (!targetPhone) {
+    console.warn('[WAHA] Nomor WhatsApp Admin belum diatur di database atau CMS.');
+    return null;
+  }
 
   const tpl = WAHA_TEMPLATES.admin_cs_alert || {
     text: `🔔 *NOTIFIKASI PENGADUAN BARU (CS)* 🍫\n\nTiket #{{tiket}} dari {{nama}} ({{phone}}) di cabang {{outlet}}.\nPesan: "{{pesan}}"`

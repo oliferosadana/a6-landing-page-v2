@@ -57,7 +57,7 @@ export default function WahaManagement({ csInquiries = [], outlets = [], showToa
   const [configApiKey, setConfigApiKey] = useState(config.apiKey);
   const [configDefaultSession, setConfigDefaultSession] = useState(config.sessionName);
   const [configAutoAdminNew, setConfigAutoAdminNew] = useState(config.autoNotifyAdminNew ?? true);
-  const [configAdminPhone, setConfigAdminPhone] = useState(config.adminPhone || '6281241075981');
+  const [configAdminPhone, setConfigAdminPhone] = useState(config.adminPhone || '628115954488');
   const [testingAdminAlert, setTestingAdminAlert] = useState(false);
   const [configAutoCsNew, setConfigAutoCsNew] = useState(config.autoNotifyCsNew ?? false);
   const [configAutoCsProgress, setConfigAutoCsProgress] = useState(config.autoNotifyCsProgress ?? true);
@@ -94,7 +94,7 @@ export default function WahaManagement({ csInquiries = [], outlets = [], showToa
         setConfigServerUrl(dbConf.serverUrl);
         setConfigApiKey(dbConf.apiKey || '');
         setConfigDefaultSession(dbConf.sessionName || 'default');
-        setConfigAdminPhone(dbConf.adminPhone || '6281241075981');
+        setConfigAdminPhone(dbConf.adminPhone || '628115954488');
         setConfigAutoAdminNew(dbConf.autoNotifyAdminNew ?? true);
         setConfigAutoCsNew(dbConf.autoNotifyCsNew ?? false);
         setConfigAutoCsProgress(dbConf.autoNotifyCsProgress ?? true);
@@ -1010,7 +1010,7 @@ export default function WahaManagement({ csInquiries = [], outlets = [], showToa
                                 rating: 5,
                                 message: 'Ini adalah tes verifikasi sistem notifikasi otomatis ke WhatsApp Admin Amanda Brownies.'
                               };
-                              const res = await sendAdminCsAlert(testPayload);
+                              const res = await sendAdminCsAlert(testPayload, { ...config, adminPhone: configAdminPhone });
                               if (res && res.success !== false) {
                                 showToast?.(`Tes notifikasi berhasil dikirim ke WA Admin (${configAdminPhone})!`, 'success');
                               } else {
