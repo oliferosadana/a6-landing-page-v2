@@ -57,7 +57,10 @@ export default function WahaManagement({ csInquiries = [], outlets = [], showToa
   const [configApiKey, setConfigApiKey] = useState(config.apiKey);
   const [configDefaultSession, setConfigDefaultSession] = useState(config.sessionName);
   const [configAutoAdminNew, setConfigAutoAdminNew] = useState(config.autoNotifyAdminNew ?? true);
-  const [configAdminPhone, setConfigAdminPhone] = useState(config.adminPhone || '628115954488');
+  const initialAdminPhone = (!config.adminPhone || config.adminPhone === '6281253439968' || config.adminPhone === '6281241075981')
+    ? '628115954488'
+    : config.adminPhone;
+  const [configAdminPhone, setConfigAdminPhone] = useState(initialAdminPhone);
   const [testingAdminAlert, setTestingAdminAlert] = useState(false);
   const [configAutoCsNew, setConfigAutoCsNew] = useState(config.autoNotifyCsNew ?? false);
   const [configAutoCsProgress, setConfigAutoCsProgress] = useState(config.autoNotifyCsProgress ?? true);
@@ -90,11 +93,14 @@ export default function WahaManagement({ csInquiries = [], outlets = [], showToa
   useEffect(() => {
     initWahaConfigFromDb().then((dbConf) => {
       if (dbConf) {
-        setConfig(dbConf);
+        const resolvedPhone = (!dbConf.adminPhone || dbConf.adminPhone === '6281253439968' || dbConf.adminPhone === '6281241075981')
+          ? '628115954488'
+          : dbConf.adminPhone;
+        setConfig({ ...dbConf, adminPhone: resolvedPhone });
         setConfigServerUrl(dbConf.serverUrl);
         setConfigApiKey(dbConf.apiKey || '');
         setConfigDefaultSession(dbConf.sessionName || 'default');
-        setConfigAdminPhone(dbConf.adminPhone || '628115954488');
+        setConfigAdminPhone(resolvedPhone);
         setConfigAutoAdminNew(dbConf.autoNotifyAdminNew ?? true);
         setConfigAutoCsNew(dbConf.autoNotifyCsNew ?? false);
         setConfigAutoCsProgress(dbConf.autoNotifyCsProgress ?? true);

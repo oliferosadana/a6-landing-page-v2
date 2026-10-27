@@ -105,7 +105,7 @@ export function getWahaConfig() {
         parsed.serverUrl = DEFAULT_WAHA_CONFIG.serverUrl;
         parsed.apiKey = DEFAULT_WAHA_CONFIG.apiKey;
       }
-      if (!parsed.adminPhone || parsed.adminPhone === '6281241075981') {
+      if (!parsed.adminPhone || parsed.adminPhone === '6281241075981' || parsed.adminPhone === '6281253439968') {
         parsed.adminPhone = DEFAULT_WAHA_CONFIG.adminPhone;
       }
       parsed.autoNotifyAdminNew = parsed.autoNotifyAdminNew ?? true;
@@ -833,13 +833,18 @@ export async function sendAdminCsAlert(inquiry, customConfig = null) {
   if (!customConfig) {
     try {
       const dbConfig = await fetchWahaConfig();
-      if (dbConfig) {
+      if (dbConfig && dbConfig.adminPhone) {
         config = { ...config, ...dbConfig };
         try { localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config)); } catch(e) {}
       }
     } catch (e) {
       console.warn('Failed to fetch live WAHA config from Supabase:', e);
     }
+  }
+
+  // Jika masih memuat nomor statis lama yang usang, alihkan ke nomor database atau default
+  if (!config.adminPhone || config.adminPhone === '6281253439968' || config.adminPhone === '6281241075981') {
+    config.adminPhone = DEFAULT_WAHA_CONFIG.adminPhone;
   }
 
   if (config.autoNotifyAdminNew === false) {
