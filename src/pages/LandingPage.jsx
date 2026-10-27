@@ -38,7 +38,7 @@ export default function LandingPage({ onOpenAdmin }) {
       />
 
       {/* Running Marquee Ticker */}
-      <PromoTicker />
+      {/* <PromoTicker /> */}
 
       {/* Main Content Sections */}
       <main>
