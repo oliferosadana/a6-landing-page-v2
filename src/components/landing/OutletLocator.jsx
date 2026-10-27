@@ -164,12 +164,13 @@ export default function OutletLocator({ onOpenOutletModal }) {
                           className="outlet-store-img"
                         />
 
-                        {/* Social Media Pulse Overlay (Instagram & TikTok) */}
+                        {/* Social Media Pulse Overlay (Follow us: Instagram, TikTok, Threads) */}
                         <div
                           className="outlet-media-socials"
                           onClick={(e) => e.stopPropagation()}
-                          title="Media Sosial Resmi Amanda Brownies"
+                          title="Ikuti Media Sosial Resmi Amanda Brownies"
                         >
+                          <span className="outlet-social-label">Follow us:</span>
                           <a
                             href="https://www.instagram.com/amandabrownies"
                             target="_blank"
@@ -189,6 +190,16 @@ export default function OutletLocator({ onOpenOutletModal }) {
                             aria-label="TikTok Amanda Brownies"
                           >
                             <i className="fa-brands fa-tiktok"></i>
+                          </a>
+                          <a
+                            href="https://www.threads.net/@amandabrownies"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="outlet-social-icon-btn outlet-social-pulse"
+                            title="Kunjungi Threads Resmi @amandabrownies"
+                            aria-label="Threads Amanda Brownies"
+                          >
+                            <i className="fa-brands fa-threads"></i>
                           </a>
                         </div>
                       </div>

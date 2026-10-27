@@ -1664,7 +1664,7 @@ h4,
 }
 
 /* ============================================================
-   OUTLET MEDIA SOCIALS (INSTAGRAM & TIKTOK PULSE OVERLAY)
+   OUTLET MEDIA SOCIALS (FOLLOW US: INSTAGRAM, TIKTOK, THREADS)
    Posisi: Bawah Tengah, Logo: Putih, Background: Transparan
    ============================================================ */
 .outlet-media-socials {
@@ -1675,11 +1675,24 @@ h4,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 12px;
   z-index: 5;
   background: transparent !important;
   pointer-events: auto;
   user-select: none;
+  white-space: nowrap;
+}
+
+.outlet-social-label {
+  color: #ffffff !important;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  line-height: 1;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 6px rgba(0, 0, 0, 0.7);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.85));
+  margin-right: 2px;
+  pointer-events: none;
 }
 
 .outlet-social-icon-btn {
@@ -1688,7 +1701,7 @@ h4,
   justify-content: center;
   color: #ffffff !important;
   background: transparent !important;
-  font-size: 21px;
+  font-size: 19px;
   line-height: 1;
   text-decoration: none;
   cursor: pointer;
@@ -1743,8 +1756,16 @@ h4,
   animation: outletSocialPulse 2.2s infinite ease-in-out;
 }
 
-.outlet-media-socials .outlet-social-icon-btn:nth-child(2) {
-  animation-delay: 0.28s;
+.outlet-media-socials .outlet-social-icon-btn:nth-of-type(1) {
+  animation-delay: 0s;
+}
+
+.outlet-media-socials .outlet-social-icon-btn:nth-of-type(2) {
+  animation-delay: 0.22s;
+}
+
+.outlet-media-socials .outlet-social-icon-btn:nth-of-type(3) {
+  animation-delay: 0.44s;
 }
 
 .outlet-network-body {
