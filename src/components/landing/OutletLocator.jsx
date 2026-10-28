@@ -172,32 +172,32 @@ export default function OutletLocator({ onOpenOutletModal }) {
                         >
                           <span className="outlet-social-label">Follow us:</span>
                           <a
-                            href="https://www.instagram.com/amandabrownies"
+                            href={out.instagramUrl || out.instagram_url || 'https://www.instagram.com/amandabrownies'}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="outlet-social-icon-btn outlet-social-pulse"
-                            title="Kunjungi Instagram Resmi @amandabrownies"
-                            aria-label="Instagram Amanda Brownies"
+                            title={`Kunjungi Instagram ${out.name}`}
+                            aria-label={`Instagram ${out.name}`}
                           >
                             <i className="fa-brands fa-instagram"></i>
                           </a>
                           <a
-                            href="https://www.tiktok.com/@amandabrownies"
+                            href={out.tiktokUrl || out.tiktok_url || 'https://www.tiktok.com/@amandabrownies'}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="outlet-social-icon-btn outlet-social-pulse"
-                            title="Kunjungi TikTok Resmi @amandabrownies"
-                            aria-label="TikTok Amanda Brownies"
+                            title={`Kunjungi TikTok ${out.name}`}
+                            aria-label={`TikTok ${out.name}`}
                           >
                             <i className="fa-brands fa-tiktok"></i>
                           </a>
                           <a
-                            href="https://www.threads.net/@amandabrownies"
+                            href={out.threadsUrl || out.threads_url || 'https://www.threads.net/@amandabrownies'}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="outlet-social-icon-btn outlet-social-pulse"
-                            title="Kunjungi Threads Resmi @amandabrownies"
-                            aria-label="Threads Amanda Brownies"
+                            title={`Kunjungi Threads ${out.name}`}
+                            aria-label={`Threads ${out.name}`}
                           >
                             <i className="fa-brands fa-threads"></i>
                           </a>

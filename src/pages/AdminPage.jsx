@@ -515,6 +515,9 @@ export default function AdminPage({ onBackToLanding }) {
       grabUrl: fd.get('grabUrl') || '',
       gofoodUrl: fd.get('gofoodUrl') || '',
       shopeefoodUrl: fd.get('shopeefoodUrl') || '',
+      instagramUrl: fd.get('instagramUrl') || '',
+      tiktokUrl: fd.get('tiktokUrl') || '',
+      threadsUrl: fd.get('threadsUrl') || '',
       image: outletImgPreview || fd.get('image') || '/assets/outlet_mt_haryono.jpg',
       distance: '1.0 km',
       booths: outletBooths
@@ -3228,6 +3231,55 @@ export default function AdminPage({ onBackToLanding }) {
               <div className="form-group">
                 <label>Tautan ShopeeFood (Opsional - default: pencarian otomatis)</label>
                 <input type="text" name="shopeefoodUrl" defaultValue={outletModal.data?.shopeefoodUrl || ''} placeholder="https://shopee.co.id/..." />
+              </div>
+
+              {/* SOCIAL MEDIA LINKS SECTION */}
+              <div style={{ marginTop: '16px', marginBottom: '8px' }}>
+                <h4 style={{ margin: '0 0 6px 0', fontSize: '13.5px', color: 'var(--ch-olive)', display: 'flex', alignItems: 'center', gap: '7px' }}>
+                  <i className="fa-solid fa-share-nodes"></i> Tautan Media Sosial Outlet (Follow Us)
+                </h4>
+                <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '0 0 10px 0' }}>
+                  Opsional: Tautan khusus cabang ini untuk Instagram, TikTok, dan Threads. Jika dikosongkan, otomatis memakai akun resmi Amanda Brownies.
+                </p>
+              </div>
+
+              <div className="form-group">
+                <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <i className="fa-brands fa-instagram" style={{ color: '#E1306C' }}></i>
+                  Tautan Instagram Cabang (Opsional)
+                </label>
+                <input
+                  type="text"
+                  name="instagramUrl"
+                  defaultValue={outletModal.data?.instagramUrl || outletModal.data?.instagram_url || ''}
+                  placeholder="https://www.instagram.com/amandabrownies (Kosongkan jika pakai default)"
+                />
+              </div>
+
+              <div className="form-group">
+                <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <i className="fa-brands fa-tiktok" style={{ color: '#000000' }}></i>
+                  Tautan TikTok Cabang (Opsional)
+                </label>
+                <input
+                  type="text"
+                  name="tiktokUrl"
+                  defaultValue={outletModal.data?.tiktokUrl || outletModal.data?.tiktok_url || ''}
+                  placeholder="https://www.tiktok.com/@amandabrownies (Kosongkan jika pakai default)"
+                />
+              </div>
+
+              <div className="form-group">
+                <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <i className="fa-brands fa-threads" style={{ color: '#000000' }}></i>
+                  Tautan Threads Cabang (Opsional)
+                </label>
+                <input
+                  type="text"
+                  name="threadsUrl"
+                  defaultValue={outletModal.data?.threadsUrl || outletModal.data?.threads_url || ''}
+                  placeholder="https://www.threads.net/@amandabrownies (Kosongkan jika pakai default)"
+                />
               </div>
 
               {/* BOOTHS MANAGER SECTION */}

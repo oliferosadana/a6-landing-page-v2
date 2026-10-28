@@ -49,6 +49,9 @@ export async function fetchOutlets() {
       grabUrl: o.grab_url || o.grabUrl || '',
       gofoodUrl: o.gofood_url || o.gofoodUrl || '',
       shopeefoodUrl: o.shopeefood_url || o.shopeefoodUrl || '',
+      instagramUrl: o.instagram_url || o.instagramUrl || '',
+      tiktokUrl: o.tiktok_url || o.tiktokUrl || '',
+      threadsUrl: o.threads_url || o.threadsUrl || '',
       distance: o.distance || '1.0 km',
       booths: Array.isArray(o.booths) ? o.booths : (typeof o.booths === 'string' ? JSON.parse(o.booths) : [])
     }));
@@ -295,6 +298,9 @@ export async function pushToSupabase(tableName, payload, operation = 'upsert') {
         grab_url: o.grabUrl || o.grab_url || '',
         gofood_url: o.gofoodUrl || o.gofood_url || '',
         shopeefood_url: o.shopeefoodUrl || o.shopeefood_url || '',
+        instagram_url: o.instagramUrl || o.instagram_url || '',
+        tiktok_url: o.tiktokUrl || o.tiktok_url || '',
+        threads_url: o.threadsUrl || o.threads_url || '',
         distance: o.distance || '1.0 km',
         booths: Array.isArray(o.booths) ? o.booths : []
       }));
@@ -396,7 +402,7 @@ export async function pushToSupabase(tableName, payload, operation = 'upsert') {
     if (error && error.code === 'PGRST204' && tableName === 'outlets') {
       console.warn(`[Supabase] Schema notice on ${tableName}: ${error.message}. Retrying with core schema...`);
       const safePayload = dbPayload.map(o => {
-        const { grab_url, gofood_url, shopeefood_url, ...core } = o;
+        const { grab_url, gofood_url, shopeefood_url, instagram_url, tiktok_url, threads_url, ...core } = o;
         return core;
       });
       const retryResult = await supabase.from(tableName).upsert(safePayload, { onConflict: 'id' });
