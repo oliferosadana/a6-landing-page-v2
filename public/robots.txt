@@ -9,4 +9,4 @@ Disallow: /admin
 Disallow: /#admin
 
 # Sitemap
-Sitemap: https://amandabrownies-balikpapan.id/sitemap.xml
+Sitemap: https://amandabrownies-kalimantan.store/sitemap.xml

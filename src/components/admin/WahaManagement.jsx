@@ -398,16 +398,15 @@ export default function WahaManagement({ csInquiries = [], outlets = [], showToa
               WhatsApp HTTP API (WAHA) Gateway
             </h2>
             <span
-              className={`waha-status-badge ${
-                health.connected ? (activeSessionObj.status === 'WORKING' ? 'status-connected' : 'status-warning') : 'status-offline'
-              }`}
+              className={`waha-status-badge ${health.connected ? (activeSessionObj.status === 'WORKING' ? 'status-connected' : 'status-warning') : 'status-offline'
+                }`}
             >
               <span className="live-dot pulse"></span>
               {health.checking
                 ? 'Memeriksa Host...'
                 : health.connected
-                ? (config.mockMode ? 'Simulasi Demo Aktif' : `Terhubung (${health.latencyMs}ms)`)
-                : 'Server Offline'}
+                  ? (config.mockMode ? 'Simulasi Demo Aktif' : `Terhubung (${health.latencyMs}ms)`)
+                  : 'Server Offline'}
             </span>
           </div>
           <p style={{ margin: '4px 0 0' }}>
@@ -1166,11 +1165,11 @@ export default function WahaManagement({ csInquiries = [], outlets = [], showToa
             </p>
             <div className="webhook-box">
               <div className="webhook-url-line">
-                <code>POST https://api.amandabrownies-balikpapan.id/webhook/waha</code>
+                <code>POST https://api.amandabrownies-kalimantan.store/webhook/waha</code>
                 <button
                   className="btn-secondary-sm"
                   onClick={() => {
-                    navigator.clipboard.writeText('https://api.amandabrownies-balikpapan.id/webhook/waha');
+                    navigator.clipboard.writeText('https://api.amandabrownies-kalimantan.store/webhook/waha');
                     showToast?.('URL Webhook disalin ke clipboard!', 'success');
                   }}
                 >
@@ -1429,7 +1428,7 @@ export default function WahaManagement({ csInquiries = [], outlets = [], showToa
 
               <div className="code-block-box">
                 <pre>
-{`# Jalankan WAHA Gateway resmi (Port 3000)
+                  {`# Jalankan WAHA Gateway resmi (Port 3000)
 docker run -d \\
   --name amanda-waha \\
   -p 3000:3000 \\
