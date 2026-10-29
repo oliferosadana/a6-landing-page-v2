@@ -8,6 +8,7 @@ import OutletLocator from '../components/landing/OutletLocator';
 import ProductCatalog from '../components/landing/ProductCatalog';
 import Footer from '../components/landing/Footer';
 import SpeedDialWa from '../components/landing/SpeedDialWa';
+import FloatingMusicPlayer from '../components/landing/FloatingMusicPlayer';
 import FlyerLightboxModal from '../components/landing/FlyerLightboxModal';
 import DirectOrderModal from '../components/landing/DirectOrderModal';
 import CustomerServiceModal from '../components/landing/CustomerServiceModal';
@@ -63,8 +64,11 @@ export default function LandingPage({ onOpenAdmin }) {
       {/* Footer */}
       <Footer onOpenCsModal={() => setCsModalOpen(true)} />
 
-      {/* Floating Speed Dial WhatsApp */}
+      {/* Floating Speed Dial WhatsApp (Bottom Right) */}
       <SpeedDialWa onOpenCsModal={() => setCsModalOpen(true)} />
+
+      {/* Floating Background Music Controller (Bottom Left) */}
+      <FloatingMusicPlayer videoUrl="https://www.youtube.com/watch?v=y9F9wkQ_LLg" defaultVolume={40} />
 
       {/* Lightbox Zoom Modal */}
       {activeFlyerModal && (

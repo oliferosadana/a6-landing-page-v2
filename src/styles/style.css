@@ -4464,3 +4464,307 @@ button.wa-speeddial-item {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* ===================================================================
+   FLOATING YOUTUBE BACKGROUND AUDIO CONTROLLER
+   Amanda Brownies Balikpapan
+   =================================================================== */
+
+/* 1. Offscreen Container for YouTube Iframe */
+.yt-audio-offscreen {
+  position: fixed !important;
+  top: -9999px !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+  visibility: hidden !important;
+  z-index: -1 !important;
+}
+
+/* 2. Floating Widget Wrapper */
+.floating-music-widget {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  z-index: 1040;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+/* 3. Floating Tooltip / Status Pill */
+.music-floating-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(35, 27, 20, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #ebe2d0;
+  border: 1px solid rgba(184, 137, 45, 0.35);
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.music-floating-pill:hover {
+  background: rgba(79, 91, 42, 0.95);
+  border-color: #b8892d;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 91, 42, 0.35);
+}
+
+.music-pill-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #9ca3af;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.floating-music-widget.is-playing .music-pill-status-dot {
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: musicDotPulse 1.8s infinite;
+}
+
+@keyframes musicDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* 4. Button & Pulse Ring Wrapper */
+.music-btn-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Pulse Ring Animation when not yet playing */
+.music-pulse-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid #b8892d;
+  animation: musicPulseWave 2.4s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+}
+
+@keyframes musicPulseWave {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  60% { transform: scale(1.45); opacity: 0; }
+  100% { transform: scale(1.45); opacity: 0; }
+}
+
+/* 5. Main Circle Button */
+.floating-music-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f5b2a 0%, #2e3618 100%);
+  border: 2px solid #b8892d;
+  color: #ebe2d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(79, 91, 42, 0.45), 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  z-index: 2;
+}
+
+.floating-music-btn:hover {
+  transform: scale(1.08);
+  border-color: #d19f39;
+  background: linear-gradient(135deg, #647336 0%, #373f1c 100%);
+  color: #ffffff;
+  box-shadow: 0 10px 28px rgba(79, 91, 42, 0.55), 0 0 14px rgba(184, 137, 45, 0.4);
+}
+
+.floating-music-btn:active {
+  transform: scale(0.95);
+}
+
+.music-icon-play {
+  font-size: 19px;
+  margin-left: 3px; /* Optical center adjustment for play icon */
+  color: #ffffff;
+}
+
+.music-icon-loading {
+  font-size: 18px;
+  color: #b8892d;
+}
+
+/* 6. Soundwave Equalizer Animation */
+.music-equalizer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3.5px;
+  height: 20px;
+  width: 22px;
+}
+
+.eq-bar {
+  width: 3.5px;
+  background: linear-gradient(to top, #b8892d, #ffffff);
+  border-radius: 3px;
+  animation: eqBounce 1.2s infinite ease-in-out alternate;
+}
+
+.eq-bar-1 { height: 6px; animation-delay: 0.1s; }
+.eq-bar-2 { height: 16px; animation-delay: 0.35s; }
+.eq-bar-3 { height: 11px; animation-delay: 0.2s; }
+.eq-bar-4 { height: 18px; animation-delay: 0.45s; }
+
+@keyframes eqBounce {
+  0% { height: 4px; }
+  100% { height: 20px; }
+}
+
+/* 7. Quick Volume / Sliders Trigger */
+.music-quick-vol-btn {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #231b14;
+  border: 1px solid #b8892d;
+  color: #ebe2d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  cursor: pointer;
+  z-index: 3;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.music-quick-vol-btn:hover {
+  background: #b8892d;
+  color: #231b14;
+  transform: scale(1.15);
+}
+
+/* 8. Expandable Volume Control Panel */
+.music-volume-panel {
+  position: absolute;
+  bottom: 64px;
+  left: 0;
+  width: 200px;
+  background: rgba(35, 27, 20, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(184, 137, 45, 0.4);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: panelSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10;
+}
+
+@keyframes panelSlideUp {
+  from { opacity: 0; transform: translateY(10px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.music-volume-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.volume-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #ebe2d0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.volume-label i {
+  color: #b8892d;
+}
+
+.music-mute-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #d8c9a8;
+  font-size: 10.5px;
+  padding: 3px 7px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.music-mute-btn:hover {
+  background: #b8892d;
+  color: #231b14;
+}
+
+.music-volume-slider {
+  width: 100%;
+  accent-color: #b8892d;
+  cursor: pointer;
+  height: 5px;
+  border-radius: 3px;
+}
+
+/* 9. Mobile Responsive adjustments */
+@media (max-width: 640px) {
+  .floating-music-widget {
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    left: 16px;
+    gap: 8px;
+  }
+
+  .floating-music-btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  .music-icon-play {
+    font-size: 17px;
+  }
+
+  .music-floating-pill {
+    padding: 6px 11px;
+    font-size: 11.5px;
+  }
+
+  .music-volume-panel {
+    bottom: 58px;
+    left: 0;
+    width: 180px;
+  }
+}
+
+@media (max-width: 420px) {
+  /* On compact screens, hide the pill to keep UI sleek and avoid blocking content */
+  .music-floating-pill {
+    display: none;
+  }
+}
