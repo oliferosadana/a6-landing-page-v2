@@ -16,19 +16,13 @@ function extractYouTubeId(url) {
 
 export default function FloatingMusicPlayer({
   videoUrl = 'https://www.youtube.com/watch?v=y9F9wkQ_LLg',
-  title = 'Amanda Brownies Ambient Music',
   defaultVolume = 40
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [isBuffering, setIsBuffering] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [volume, setVolume] = useState(defaultVolume);
-  const [showVolumePanel, setShowVolumePanel] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
 
   const playerRef = useRef(null);
-  const containerRef = useRef(null);
   const videoId = extractYouTubeId(videoUrl) || 'y9F9wkQ_LLg';
 
   // Initialize YouTube IFrame Player API
@@ -38,7 +32,6 @@ export default function FloatingMusicPlayer({
     const initPlayer = () => {
       if (!isMounted || !window.YT || !window.YT.Player) return;
 
-      // Clean up previous instance if any
       if (playerRef.current && typeof playerRef.current.destroy === 'function') {
         try {
           playerRef.current.destroy();
@@ -53,15 +46,14 @@ export default function FloatingMusicPlayer({
           width: '1',
           videoId: videoId,
           playerVars: {
-            autoplay: 0,
+            autoplay: 1, // Auto play saat halaman dibuka
             controls: 0,
             disablekb: 1,
             fs: 0,
             modestbranding: 1,
             rel: 0,
             playsinline: 1,
-            loop: 1,
-            playlist: videoId, // Required for loop to repeat the same video
+            loop: 0, // Putar hanya sekali (tanpa loop otomatis)
             origin: window.location.origin
           },
           events: {
@@ -69,6 +61,8 @@ export default function FloatingMusicPlayer({
               if (!isMounted) return;
               try {
                 event.target.setVolume(defaultVolume);
+                // Langsung putar saat player siap
+                event.target.playVideo();
               } catch (e) {}
               setIsReady(true);
             },
@@ -84,10 +78,9 @@ export default function FloatingMusicPlayer({
               } else if (state === window.YT.PlayerState.BUFFERING) {
                 setIsBuffering(true);
               } else if (state === window.YT.PlayerState.ENDED) {
-                // Ensure loop continues without gap
-                try {
-                  event.target.playVideo();
-                } catch (e) {}
+                // Musik selesai diputar 1x: berhenti dan kembali ke tombol Play
+                setIsPlaying(false);
+                setIsBuffering(false);
               }
             },
             onError: (err) => {
@@ -101,7 +94,6 @@ export default function FloatingMusicPlayer({
       }
     };
 
-    // Load YouTube API script if not present
     if (!window.YT) {
       const existingScript = document.querySelector('script[src*="youtube.com/iframe_api"]');
       if (!existingScript) {
@@ -115,7 +107,6 @@ export default function FloatingMusicPlayer({
         }
       }
 
-      // Chain onto onYouTubeIframeAPIReady callback
       const prevCallback = window.onYouTubeIframeAPIReady;
       window.onYouTubeIframeAPIReady = () => {
         if (typeof prevCallback === 'function') prevCallback();
@@ -135,15 +126,53 @@ export default function FloatingMusicPlayer({
     };
   }, [videoId, defaultVolume]);
 
-  // Toggle Play / Pause
+  // Autoplay fallback: jika browser membatasi autoplay suara sebelum ada gestur pengunjung,
+  // musik otomatis langsung menyala saat pertama kali pengunjung menyentuh/scroll/klik halaman.
+  useEffect(() => {
+    if (!isReady || isPlaying) return;
+
+    const handleFirstUserGesture = () => {
+      if (playerRef.current && isReady) {
+        try {
+          const state = typeof playerRef.current.getPlayerState === 'function'
+            ? playerRef.current.getPlayerState()
+            : -1;
+          // Putar jika belum berputar dan belum tamat
+          if (state !== 1 && state !== 0) {
+            playerRef.current.playVideo();
+          }
+        } catch (e) {}
+      }
+    };
+
+    window.addEventListener('pointerdown', handleFirstUserGesture, { once: true, passive: true });
+    window.addEventListener('touchstart', handleFirstUserGesture, { once: true, passive: true });
+    window.addEventListener('scroll', handleFirstUserGesture, { once: true, passive: true });
+    window.addEventListener('keydown', handleFirstUserGesture, { once: true, passive: true });
+
+    return () => {
+      window.removeEventListener('pointerdown', handleFirstUserGesture);
+      window.removeEventListener('touchstart', handleFirstUserGesture);
+      window.removeEventListener('scroll', handleFirstUserGesture);
+      window.removeEventListener('keydown', handleFirstUserGesture);
+    };
+  }, [isReady, isPlaying]);
+
+  // Toggle Play / Pause saat tombol diklik
   const togglePlay = useCallback(() => {
-    setHasInteracted(true);
     if (!playerRef.current || !isReady) return;
 
     try {
       if (isPlaying) {
         playerRef.current.pauseVideo();
       } else {
+        const state = typeof playerRef.current.getPlayerState === 'function'
+          ? playerRef.current.getPlayerState()
+          : -1;
+        // Jika sudah selesai (ended), ulang dari detik ke-0
+        if (state === 0 || state === window.YT?.PlayerState?.ENDED) {
+          playerRef.current.seekTo(0, true);
+        }
         playerRef.current.playVideo();
       }
     } catch (err) {
@@ -151,56 +180,11 @@ export default function FloatingMusicPlayer({
     }
   }, [isPlaying, isReady]);
 
-  // Toggle Mute / Unmute
-  const toggleMute = useCallback((e) => {
-    e.stopPropagation();
-    if (!playerRef.current || !isReady) return;
-
-    try {
-      if (isMuted) {
-        playerRef.current.unMute();
-        playerRef.current.setVolume(volume || defaultVolume);
-        setIsMuted(false);
-      } else {
-        playerRef.current.mute();
-        setIsMuted(true);
-      }
-    } catch (e) {}
-  }, [isMuted, isReady, volume, defaultVolume]);
-
-  // Adjust volume
-  const handleVolumeChange = useCallback((e) => {
-    const newVol = parseInt(e.target.value, 10);
-    setVolume(newVol);
-    if (playerRef.current && isReady) {
-      try {
-        playerRef.current.setVolume(newVol);
-        if (newVol > 0 && isMuted) {
-          playerRef.current.unMute();
-          setIsMuted(false);
-        }
-      } catch (e) {}
-    }
-  }, [isReady, isMuted]);
-
-  // Close volume panel when clicking outside
-  useEffect(() => {
-    if (!showVolumePanel) return;
-    const handleOutsideClick = (e) => {
-      if (containerRef.current && !containerRef.current.contains(e.target)) {
-        setShowVolumePanel(false);
-      }
-    };
-    document.addEventListener('pointerdown', handleOutsideClick);
-    return () => document.removeEventListener('pointerdown', handleOutsideClick);
-  }, [showVolumePanel]);
-
   return (
     <>
       {/* 
         Offscreen YouTube IFrame Container
         Zero opacity, 1px size, positioned completely off-screen.
-        Never use display:none because modern browsers pause media in hidden elements.
       */}
       <div
         id="yt-bg-audio-container"
@@ -210,87 +194,26 @@ export default function FloatingMusicPlayer({
         <div id="yt-bg-audio-player"></div>
       </div>
 
-      {/* Floating Music Controller */}
+      {/* Floating Single Circle Button (Hanya Tombol Play / Pause Soundwave) */}
       <div
-        ref={containerRef}
         className={`floating-music-widget ${isPlaying ? 'is-playing' : 'is-paused'} ${isReady ? 'is-ready' : 'is-loading'}`}
         aria-label="Kontrol Backsound Musik"
       >
-        {/* Expandable Volume Popover */}
-        {showVolumePanel && (
-          <div className="music-volume-panel" onClick={(e) => e.stopPropagation()}>
-            <div className="music-volume-header">
-              <span className="volume-label">
-                <i className={`fa-solid ${isMuted || volume === 0 ? 'fa-volume-xmark' : volume < 50 ? 'fa-volume-low' : 'fa-volume-high'}`}></i>
-                Volume Musik ({isMuted ? 'Mute' : `${volume}%`})
-              </span>
-              <button
-                type="button"
-                className="music-mute-btn"
-                onClick={toggleMute}
-                title={isMuted ? 'Nyalakan Suara' : 'Bisukan Suara'}
-              >
-                {isMuted ? 'Unmute' : 'Mute'}
-              </button>
-            </div>
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={isMuted ? 0 : volume}
-              onChange={handleVolumeChange}
-              className="music-volume-slider"
-              aria-label="Pengatur Volume Backsound"
-            />
-          </div>
-        )}
-
-        {/* Floating Tooltip Pill (Interactive badge) */}
-        <div
-          className="music-floating-pill"
-          onClick={togglePlay}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              togglePlay();
-            }
-          }}
-          title={isPlaying ? 'Klik untuk jeda musik' : 'Klik untuk putar backsound'}
-        >
-          <span className="music-pill-status-dot"></span>
-          <span className="music-pill-text">
-            {isBuffering
-              ? 'Memuat Lagu...'
-              : isPlaying
-              ? 'Musik Santai Aktif'
-              : hasInteracted
-              ? 'Putar Musik'
-              : '🎵 Musik Suasana'}
-          </span>
-        </div>
-
-        {/* Floating Circle Button */}
         <div className="music-btn-wrapper">
-          {/* Gentle pulse wave ring when paused & not yet interacted */}
-          {!isPlaying && !hasInteracted && <span className="music-pulse-ring"></span>}
+          {/* Pulse ring saat sedang dijeda */}
+          {!isPlaying && <span className="music-pulse-ring"></span>}
 
           <button
             type="button"
             className="floating-music-btn"
             onClick={togglePlay}
-            onContextMenu={(e) => {
-              e.preventDefault();
-              setShowVolumePanel(prev => !prev);
-            }}
             aria-label={isPlaying ? 'Jeda Musik' : 'Putar Musik'}
-            title={isPlaying ? 'Klik: Jeda Musik | Klik Kanan: Atur Volume' : 'Klik untuk Putar Musik Suasana'}
+            title={isPlaying ? 'Jeda Musik' : 'Putar Musik'}
           >
             {isBuffering ? (
               <i className="fa-solid fa-spinner fa-spin music-icon-loading"></i>
             ) : isPlaying ? (
-              /* Animated Soundwave Equalizer */
+              /* Animated Soundwave Equalizer saat sedang berputar */
               <div className="music-equalizer" aria-hidden="true">
                 <span className="eq-bar eq-bar-1"></span>
                 <span className="eq-bar eq-bar-2"></span>
@@ -298,23 +221,9 @@ export default function FloatingMusicPlayer({
                 <span className="eq-bar eq-bar-4"></span>
               </div>
             ) : (
-              /* Play Triangle Icon */
+              /* Ikon Play saat sedang berhenti/jeda */
               <i className="fa-solid fa-play music-icon-play"></i>
             )}
-          </button>
-
-          {/* Quick Volume Settings Toggle Trigger */}
-          <button
-            type="button"
-            className="music-quick-vol-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowVolumePanel(prev => !prev);
-            }}
-            title="Pengaturan Volume"
-            aria-label="Buka Pengaturan Volume"
-          >
-            <i className={`fa-solid ${isMuted || volume === 0 ? 'fa-volume-xmark' : 'fa-sliders'}`}></i>
           </button>
         </div>
       </div>
