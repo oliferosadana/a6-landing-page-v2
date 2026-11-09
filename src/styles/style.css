@@ -1568,8 +1568,9 @@ h4,
 }
 
 .city-pill {
-  background: #ffffff;
-  border: 1px solid rgba(216, 201, 168, 0.7);
+  background: linear-gradient(180deg, #ffffff 0%, #fdfbf7 100%);
+  border: 1px solid rgba(216, 201, 168, 0.8);
+  border-bottom: 2.5px solid rgba(184, 168, 137, 0.9);
   color: var(--text-muted);
   font-size: 13px;
   font-weight: 600;
@@ -1579,8 +1580,9 @@ h4,
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 2px 8px rgba(35, 27, 20, 0.05);
-  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+  user-select: none;
+  box-shadow: 0 2px 4px rgba(35, 27, 20, 0.04), inset 0 1px 0 #ffffff;
+  transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
@@ -1589,21 +1591,25 @@ h4,
 .city-pill:hover {
   color: var(--primary-olive);
   border-color: var(--primary-olive);
+  border-bottom: 2.5px solid #3b4420;
   background: #ffffff;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(79, 91, 42, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 91, 42, 0.16), inset 0 1px 0 #ffffff;
 }
 
 .city-pill:active {
-  transform: translateY(0);
+  transform: translateY(1.5px) scale(0.98);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 1px 3px rgba(35, 27, 20, 0.15);
 }
 
 .city-pill.active {
-  background: var(--primary-olive);
+  background: linear-gradient(180deg, #5b6932 0%, #4F5B2A 100%);
   color: #ffffff;
-  border-color: var(--primary-olive);
+  border-color: #3f4921;
+  border-bottom: 2.5px solid #282f12;
   font-weight: 700;
-  box-shadow: 0 4px 12px rgba(79, 91, 42, 0.2);
+  box-shadow: 0 3px 8px rgba(79, 91, 42, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 /* 2-Column Outlets Grid (Horizontal Split Cards) */
@@ -1832,18 +1838,46 @@ h4,
 }
 
 .outlet-meta-item.outlet-meta-phone {
-  color: var(--text-main);
+  color: #15803d;
   text-decoration: none;
   cursor: pointer;
+  background: linear-gradient(180deg, #ffffff 0%, #edfbf2 100%);
+  border: 1px solid #86efac;
+  border-bottom: 2px solid #16a34a;
+  padding: 2px 9px;
+  border-radius: 6px;
+  box-shadow: 0 1.5px 3px rgba(22, 163, 74, 0.08), inset 0 1px 0 #ffffff;
+  transition: all 0.16s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
 }
 
 .outlet-meta-item.outlet-meta-phone i {
   color: #16a34a;
+  transition: transform 0.15s ease;
 }
 
 .outlet-meta-item.outlet-meta-phone:hover {
-  color: #15803d;
-  text-decoration: underline;
+  background: #16a34a;
+  border-color: #15803d;
+  border-bottom: 2px solid #14532d;
+  color: #ffffff;
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(22, 163, 74, 0.3);
+}
+
+.outlet-meta-item.outlet-meta-phone:hover i {
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.outlet-meta-item.outlet-meta-phone:active {
+  transform: translateY(1px);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
 .outlet-meta-dot {
@@ -1942,63 +1976,71 @@ h4,
   flex-shrink: 0;
 }
 
-.btn-booth-simple-wa {
-  background: var(--accent-green-bg);
-  color: var(--accent-green);
-  border: 1px solid rgba(37, 211, 102, 0.35);
-  width: 25px;
-  height: 25px;
-  border-radius: var(--radius-sm);
+/* ============================================================
+   BOOTH COUNTER MINI ACTION BUTTONS (TACTILE MICRO-BUTTONS)
+   ============================================================ */
+.btn-booth-simple-wa,
+.btn-booth-simple-grab,
+.btn-booth-simple-gofood,
+.btn-booth-simple-shopee,
+.btn-booth-simple-maps {
+  width: 27px;
+  height: 27px;
+  border-radius: 6px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
   flex-shrink: 0;
-  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 1.5px 3px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
 }
 
-.btn-booth-simple-wa:hover {
-  background: var(--accent-green);
-  color: #ffffff;
-  border-color: var(--accent-green);
-  transform: translateY(-1px);
+.btn-booth-simple-wa {
+  background: linear-gradient(180deg, #ffffff 0%, #edfbf2 100%);
+  color: #15803d;
+  border: 1px solid #86efac;
+  border-bottom: 2px solid #16a34a;
+  font-size: 13.5px;
 }
-
+.btn-booth-simple-wa:hover {
+  background: #16a34a;
+  border-color: #15803d;
+  color: #ffffff;
+  transform: translateY(-1.5px);
+  box-shadow: 0 3px 8px rgba(22, 163, 74, 0.35);
+}
 .btn-booth-simple-wa:active {
-  transform: translateY(0);
+  transform: translateY(1px) scale(0.92);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .btn-booth-simple-grab {
-  background: rgba(0, 177, 79, 0.08);
-  color: #00B14F;
-  border: 1px solid rgba(0, 177, 79, 0.32);
-  width: 25px;
-  height: 25px;
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
+  background: linear-gradient(180deg, #ffffff 0%, #ebfbf0 100%);
+  color: #00873a;
+  border: 1px solid #86efac;
+  border-bottom: 2px solid #00a046;
 }
-
 .btn-booth-simple-grab:hover {
   background: #00B14F;
+  border-color: #009a44;
   color: #ffffff;
-  border-color: #00B14F;
-  transform: translateY(-1px);
+  transform: translateY(-1.5px);
+  box-shadow: 0 3px 8px rgba(0, 177, 79, 0.35);
 }
-
+.btn-booth-simple-grab:hover .grab-icon-mini {
+  filter: brightness(0) invert(1);
+}
 .btn-booth-simple-grab:active {
-  transform: translateY(0);
+  transform: translateY(1px) scale(0.92);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .grab-icon-mini,
@@ -2009,100 +2051,82 @@ h4,
   display: inline-block;
   vertical-align: middle;
   flex-shrink: 0;
+  transition: transform 0.15s ease;
 }
 
 .btn-booth-simple-gofood {
-  background: rgba(238, 39, 55, 0.08);
-  color: #EE2737;
-  border: 1px solid rgba(238, 39, 55, 0.32);
-  width: 25px;
-  height: 25px;
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
+  background: linear-gradient(180deg, #ffffff 0%, #fef2f2 100%);
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+  border-bottom: 2px solid #dc2626;
 }
-
 .btn-booth-simple-gofood:hover {
   background: #EE2737;
+  border-color: #dc2626;
   color: #ffffff;
-  border-color: #EE2737;
-  transform: translateY(-1px);
+  transform: translateY(-1.5px);
+  box-shadow: 0 3px 8px rgba(238, 39, 55, 0.35);
 }
-
+.btn-booth-simple-gofood:hover .gofood-icon-mini {
+  filter: brightness(0) invert(1);
+}
 .btn-booth-simple-gofood:active {
-  transform: translateY(0);
+  transform: translateY(1px) scale(0.92);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .btn-booth-simple-shopee {
-  background: rgba(238, 77, 45, 0.08);
-  color: #EE4D2D;
-  border: 1px solid rgba(238, 77, 45, 0.32);
-  width: 25px;
-  height: 25px;
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
+  background: linear-gradient(180deg, #ffffff 0%, #fff7ed 100%);
+  color: #ea580c;
+  border: 1px solid #fdba74;
+  border-bottom: 2px solid #ea580c;
 }
-
 .btn-booth-simple-shopee:hover {
   background: #EE4D2D;
+  border-color: #e03a19;
   color: #ffffff;
-  border-color: #EE4D2D;
-  transform: translateY(-1px);
+  transform: translateY(-1.5px);
+  box-shadow: 0 3px 8px rgba(238, 77, 45, 0.35);
 }
-
+.btn-booth-simple-shopee:hover .shopee-icon-mini {
+  filter: brightness(0) invert(1);
+}
 .btn-booth-simple-shopee:active {
-  transform: translateY(0);
+  transform: translateY(1px) scale(0.92);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .btn-booth-simple-maps {
-  background: var(--bg-surface-elevated);
-  color: var(--text-muted);
-  border: 1px solid var(--border-sand);
-  width: 25px;
-  height: 25px;
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11.5px;
-  flex-shrink: 0;
-  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
+  background: linear-gradient(180deg, #ffffff 0%, #f7f4ee 100%);
+  color: var(--primary-olive, #4f5b2a);
+  border: 1px solid #d8c9a8;
+  border-bottom: 2px solid #4f5b2a;
+  font-size: 12px;
 }
-
 .btn-booth-simple-maps:hover {
-  background: #ffffff;
-  color: #EA4335;
-  border-color: #EA4335;
-  transform: translateY(-1px);
+  background: var(--primary-olive, #4f5b2a);
+  border-color: #3f4921;
+  color: #ffffff;
+  transform: translateY(-1.5px);
+  box-shadow: 0 3px 8px rgba(79, 91, 42, 0.35);
 }
-
 .btn-booth-simple-maps:active {
-  transform: translateY(0);
+  transform: translateY(1px) scale(0.92);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
+/* ============================================================
+   OUTLET ACTION BUTTONS (TACTILE PRESSABLE DESIGN)
+   Clean, modern physical affordance with subtle 3D bevel & press
+   ============================================================ */
 .outlet-network-actions {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
+  margin-top: 4px;
 }
 
 .btn-network-wa,
@@ -2112,117 +2136,161 @@ h4,
 .btn-network-maps {
   flex: 1;
   min-width: 0;
-  height: 34px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1px;
-  padding: 0 4px;
-  border-radius: 7px;
+  height: 36px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  padding: 0 6px;
+  border-radius: 8px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4.5px;
-  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+  gap: 5px;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  position: relative;
+  transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.85);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
-  white-space: nowrap;
 }
 
-/* WhatsApp: Soft green tint in rest, vibrant green on hover */
+/* WhatsApp: Tactile emerald green button */
 .btn-network-wa {
-  background: rgba(37, 211, 102, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #edfbf2 100%);
   color: #15803d;
-  border: 1px solid rgba(37, 211, 102, 0.28);
+  border: 1px solid #86efac;
+  border-bottom: 2.5px solid #16a34a;
 }
-
+.btn-network-wa i {
+  color: #16a34a;
+  font-size: 13.5px;
+  transition: transform 0.18s ease;
+}
 .btn-network-wa:hover {
-  background: #22c55e;
-  border-color: #22c55e;
+  background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%);
+  border-color: #16a34a;
+  border-bottom: 2.5px solid #14532d;
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
 }
-
+.btn-network-wa:hover i {
+  color: #ffffff;
+  transform: scale(1.1);
+}
 .btn-network-wa:active {
-  transform: translateY(0);
+  transform: translateY(1.5px) scale(0.98);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.18);
 }
 
-/* Grab: Soft green tint in rest, grab green on hover */
+/* Grab: Tactile vibrant green button */
 .btn-network-grab {
-  background: rgba(0, 177, 79, 0.08);
-  color: #008a3e;
-  border: 1px solid rgba(0, 177, 79, 0.28);
+  background: linear-gradient(180deg, #ffffff 0%, #ebfbf0 100%);
+  color: #00873a;
+  border: 1px solid #86efac;
+  border-bottom: 2.5px solid #00a046;
 }
-
 .btn-network-grab:hover {
-  background: #00B14F;
-  border-color: #00B14F;
+  background: linear-gradient(180deg, #00C853 0%, #00B14F 100%);
+  border-color: #009a44;
+  border-bottom: 2.5px solid #007735;
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 177, 79, 0.25);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 177, 79, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
 }
-
+.btn-network-grab:hover .grab-icon-svg {
+  filter: brightness(0) invert(1);
+  transform: scale(1.1);
+}
 .btn-network-grab:active {
-  transform: translateY(0);
+  transform: translateY(1.5px) scale(0.98);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.18);
 }
 
-/* GoFood: Soft red tint in rest, gofood red on hover */
+/* GoFood: Tactile ruby red button */
 .btn-network-gofood {
-  background: rgba(238, 39, 55, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #fef2f2 100%);
   color: #dc2626;
-  border: 1px solid rgba(238, 39, 55, 0.28);
+  border: 1px solid #fca5a5;
+  border-bottom: 2.5px solid #dc2626;
 }
-
 .btn-network-gofood:hover {
-  background: #EE2737;
-  border-color: #EE2737;
+  background: linear-gradient(180deg, #f83a49 0%, #EE2737 100%);
+  border-color: #dc2626;
+  border-bottom: 2.5px solid #b91c1c;
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(238, 39, 55, 0.25);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(238, 39, 55, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
 }
-
+.btn-network-gofood:hover .gofood-icon-svg {
+  filter: brightness(0) invert(1);
+  transform: scale(1.1);
+}
 .btn-network-gofood:active {
-  transform: translateY(0);
+  transform: translateY(1.5px) scale(0.98);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.18);
 }
 
-/* ShopeeFood: Soft orange tint in rest, shopee orange on hover */
+/* ShopeeFood: Tactile sunset orange button */
 .btn-network-shopee {
-  background: rgba(238, 77, 45, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #fff7ed 100%);
   color: #ea580c;
-  border: 1px solid rgba(238, 77, 45, 0.28);
+  border: 1px solid #fdba74;
+  border-bottom: 2.5px solid #ea580c;
 }
-
 .btn-network-shopee:hover {
-  background: #EE4D2D;
-  border-color: #EE4D2D;
+  background: linear-gradient(180deg, #f95f40 0%, #EE4D2D 100%);
+  border-color: #e03a19;
+  border-bottom: 2.5px solid #c22c0e;
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(238, 77, 45, 0.25);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(238, 77, 45, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
 }
-
+.btn-network-shopee:hover .shopee-icon-svg {
+  filter: brightness(0) invert(1);
+  transform: scale(1.1);
+}
 .btn-network-shopee:active {
-  transform: translateY(0);
+  transform: translateY(1.5px) scale(0.98);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.18);
 }
 
-/* Google Maps / Lokasi: Soft neutral olive tint in rest, olive on hover */
+/* Google Maps / Lokasi: Tactile heritage olive button */
 .btn-network-maps {
-  background: rgba(79, 91, 42, 0.05);
-  border: 1px solid rgba(79, 91, 42, 0.2);
-  color: var(--primary-olive);
+  background: linear-gradient(180deg, #ffffff 0%, #f7f4ee 100%);
+  color: var(--primary-olive, #4f5b2a);
+  border: 1px solid #d8c9a8;
+  border-bottom: 2.5px solid #4f5b2a;
 }
-
+.btn-network-maps i {
+  color: #e11d48;
+  font-size: 12.5px;
+  transition: transform 0.18s ease;
+}
 .btn-network-maps:hover {
-  background: var(--primary-olive);
-  border-color: var(--primary-olive);
+  background: linear-gradient(180deg, #5e6c33 0%, #4f5b2a 100%);
+  border-color: #3f4921;
+  border-bottom: 2.5px solid #2b3314;
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(79, 91, 42, 0.2);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(79, 91, 42, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
 }
-
+.btn-network-maps:hover i {
+  color: #ffffff;
+  transform: scale(1.1);
+}
 .btn-network-maps:active {
-  transform: translateY(0);
+  transform: translateY(1.5px) scale(0.98);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.18);
 }
 
 .grab-icon-svg,
@@ -2233,6 +2301,7 @@ h4,
   flex-shrink: 0;
   display: inline-block;
   vertical-align: middle;
+  transition: transform 0.18s ease;
 }
 
 /* Service Info Banner */
