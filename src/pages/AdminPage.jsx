@@ -149,6 +149,41 @@ export default function AdminPage({ onBackToLanding }) {
   const [adminPassword, setAdminPassword] = useState('');
   const [showAdminPass, setShowAdminPass] = useState(false);
 
+  // WAAS Configuration state
+  const [waasUrl, setWaasUrl] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('tenant_waas_config') || localStorage.getItem('amanda_waas_config') || '{}');
+      return saved.waasUrl || 'https://zomkdefqivvbtxqzavpz.supabase.co';
+    } catch {
+      return 'https://zomkdefqivvbtxqzavpz.supabase.co';
+    }
+  });
+  const [waasKey, setWaasKey] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('tenant_waas_config') || localStorage.getItem('amanda_waas_config') || '{}');
+      return saved.waasKey || 'sb_publishable_xG2a15CPnDELITqWHdodiQ__PnNZX8-';
+    } catch {
+      return 'sb_publishable_xG2a15CPnDELITqWHdodiQ__PnNZX8-';
+    }
+  });
+  const [waasTenantId, setWaasTenantId] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('tenant_waas_config') || localStorage.getItem('amanda_waas_config') || '{}');
+      return saved.tenantId || 'tenant_amanda';
+    } catch {
+      return 'tenant_amanda';
+    }
+  });
+  const [waasSubdomain, setWaasSubdomain] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('tenant_waas_config') || localStorage.getItem('amanda_waas_config') || '{}');
+      return saved.subdomain || 'amanda';
+    } catch {
+      return 'amanda';
+    }
+  });
+  const [showWaasKey, setShowWaasKey] = useState(false);
+
   // Sync session name & email
   useEffect(() => {
     if (session?.user) {
@@ -397,6 +432,26 @@ export default function AdminPage({ onBackToLanding }) {
       showToast(res.message);
     } else {
       showToast(res.message, 'error');
+    }
+  };
+
+  const handleSaveWaasConfig = (e) => {
+    e.preventDefault();
+    const cfg = {
+      waasUrl: waasUrl.trim(),
+      waasKey: waasKey.trim(),
+      tenantId: waasTenantId.trim(),
+      subdomain: waasSubdomain.trim()
+    };
+    try {
+      localStorage.setItem('tenant_waas_config', JSON.stringify(cfg));
+      localStorage.setItem('amanda_waas_config', JSON.stringify(cfg));
+      if (typeof window.refreshWaasStatusEnforcer === 'function') {
+        window.refreshWaasStatusEnforcer();
+      }
+      showToast('Konfigurasi WAAS berhasil disimpan!', 'success');
+    } catch (err) {
+      showToast('Gagal menyimpan konfigurasi WAAS: ' + err.message, 'error');
     }
   };
 
@@ -2708,6 +2763,87 @@ export default function AdminPage({ onBackToLanding }) {
                         </button>
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                {/* Integrasi Jaringan Platform BorneoLink WAAS */}
+                <div className="panel-card" style={{ gridColumn: 'span 2' }}>
+                  <div className="panel-head">
+                    <div className="panel-head-title">
+                      <i className="fa-solid fa-network-wired" style={{ color: 'var(--primary-olive)' }}></i>
+                      <h3>Integrasi Jaringan Platform BorneoLink WAAS</h3>
+                    </div>
+                    <span className="badge-pill gold"><i className="fa-solid fa-cloud"></i> Master Network</span>
+                  </div>
+                  <div className="panel-body">
+                    <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', marginBottom: '16px' }}>
+                      Koneksi ke Database Master WAAS untuk validasi status langganan &amp; penegakan suspensi website saat jatuh tempo. Standar arsitektur Dual Database Client.
+                    </p>
+                    <form onSubmit={handleSaveWaasConfig}>
+                      <div className="form-grid-2" style={{ marginBottom: '16px' }}>
+                        <div className="form-group">
+                          <label>WAAS Supabase URL</label>
+                          <input
+                            type="url"
+                            value={waasUrl}
+                            onChange={(e) => setWaasUrl(e.target.value)}
+                            placeholder="https://zomkdefqivvbtxqzavpz.supabase.co"
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>WAAS Publishable Key</label>
+                          <div className="input-with-icon" style={{ position: 'relative' }}>
+                            <i className="fa-solid fa-key"></i>
+                            <input
+                              type={showWaasKey ? 'text' : 'password'}
+                              value={waasKey}
+                              onChange={(e) => setWaasKey(e.target.value)}
+                              placeholder="sb_publishable_..."
+                              required
+                              style={{ paddingRight: '42px' }}
+                            />
+                            <button
+                              type="button"
+                              className="btn-toggle-eye"
+                              onClick={() => setShowWaasKey(!showWaasKey)}
+                              style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-dim)' }}
+                            >
+                              <i className={`fa-regular ${showWaasKey ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="form-grid-2" style={{ marginBottom: '18px' }}>
+                        <div className="form-group">
+                          <label>Tenant ID Platform</label>
+                          <input
+                            type="text"
+                            value={waasTenantId}
+                            onChange={(e) => setWaasTenantId(e.target.value)}
+                            placeholder="tenant_amanda"
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Subdomain Website</label>
+                          <input
+                            type="text"
+                            value={waasSubdomain}
+                            onChange={(e) => setWaasSubdomain(e.target.value)}
+                            placeholder="amanda"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <button type="submit" className="btn-primary">
+                          <i className="fa-solid fa-floppy-disk"></i> Simpan Konfigurasi WAAS
+                        </button>
+                      </div>
+                    </form>
                   </div>
                 </div>
 
