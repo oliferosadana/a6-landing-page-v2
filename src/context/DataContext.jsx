@@ -15,6 +15,11 @@ import { getCache, setCache } from '../utils/cache';
 const DataContext = createContext(null);
 const CACHE_KEY = 'amanda_site_cache_v2';
 
+const sortPromosList = (list) => {
+  if (!Array.isArray(list)) return [];
+  return [...list].sort((a, b) => (Number(a.sortOrder ?? a.sort_order) || 999) - (Number(b.sortOrder ?? b.sort_order) || 999));
+};
+
 export function DataProvider({ children }) {
   const [outlets, setOutlets] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -141,7 +146,7 @@ export function DataProvider({ children }) {
     const pPromos = fetchPromos()
       .then((data) => {
         if (data && data.length > 0) {
-          setPromos(data);
+          setPromos(sortPromosList(data));
         }
         setPromosLoading(false);
         return data || [];
@@ -257,7 +262,7 @@ export function DataProvider({ children }) {
           setProductsLoading(false);
         }
         if (cached.promos && cached.promos.length > 0) {
-          setPromos(cached.promos);
+          setPromos(sortPromosList(cached.promos));
           setPromosLoading(false);
         }
         if (cached.pricelists && cached.pricelists.length > 0) {
@@ -275,7 +280,7 @@ export function DataProvider({ children }) {
           setOutlets(prev => (prev.length > 0 ? prev : defaults.DEFAULT_OUTLETS));
           setCategories(prev => (prev.length > 0 ? prev : defaults.DEFAULT_OUTLET_CATEGORIES));
           setProducts(prev => (prev.length > 0 ? prev : defaults.DEFAULT_PRODUCTS));
-          setPromos(prev => (prev.length > 0 ? prev : defaults.DEFAULT_PROMOS));
+          setPromos(prev => (prev.length > 0 ? sortPromosList(prev) : sortPromosList(defaults.DEFAULT_PROMOS)));
           setPricelists(prev => (prev.length > 0 ? prev : defaults.DEFAULT_PRICELISTS));
           setTicker(prev => (prev.length > 0 ? prev : defaults.DEFAULT_TICKER));
           setCsInquiries(prev => (prev.length > 0 ? prev : (defaults.DEFAULT_CS_INQUIRIES || [])));
@@ -482,7 +487,7 @@ export function DataProvider({ children }) {
       setOutlets(defaults.DEFAULT_OUTLETS);
       setCategories(defaults.DEFAULT_OUTLET_CATEGORIES);
       setProducts(defaults.DEFAULT_PRODUCTS);
-      setPromos(defaults.DEFAULT_PROMOS);
+      setPromos(sortPromosList(defaults.DEFAULT_PROMOS));
       setPricelists(defaults.DEFAULT_PRICELISTS);
       setTicker(defaults.DEFAULT_TICKER);
       setCsInquiries(defaults.DEFAULT_CS_INQUIRIES || []);
@@ -522,8 +527,9 @@ export function DataProvider({ children }) {
       await pushToSupabase('products', backupData.products);
     }
     if (backupData.promos) {
-      setPromos(backupData.promos);
-      await pushToSupabase('promos', backupData.promos);
+      const sorted = sortPromosList(backupData.promos);
+      setPromos(sorted);
+      await pushToSupabase('promos', sorted);
     }
     if (backupData.pricelists) {
       setPricelists(backupData.pricelists);

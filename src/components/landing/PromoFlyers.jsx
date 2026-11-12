@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
 import SectionSpinner from '../common/SectionSpinner';
 
@@ -16,16 +16,26 @@ export default function PromoFlyers({ onOpenFlyerModal }) {
   const dragDistanceRef = useRef(0);
   const autoPlayTimerRef = useRef(null);
 
+  // Strictly sort promos based on sortOrder (1 = highest priority / front)
+  const sortedPromos = useMemo(() => {
+    if (!promos || !Array.isArray(promos)) return [];
+    return [...promos].sort((a, b) => {
+      const orderA = Number(a.sortOrder ?? a.sort_order) || 999;
+      const orderB = Number(b.sortOrder ?? b.sort_order) || 999;
+      return orderA - orderB;
+    });
+  }, [promos]);
+
   // Auto-cycle deck every 6 seconds if user is idle
   useEffect(() => {
-    if (!promos || promos.length <= 1 || isDragging || isSwipingOut) return;
+    if (!sortedPromos || sortedPromos.length <= 1 || isDragging || isSwipingOut) return;
     autoPlayTimerRef.current = setInterval(() => {
       handleNext('left');
     }, 6000);
     return () => clearInterval(autoPlayTimerRef.current);
-  }, [promos, currentIndex, isDragging, isSwipingOut]);
+  }, [sortedPromos, currentIndex, isDragging, isSwipingOut]);
 
-  if (promosLoading && (!promos || promos.length === 0)) {
+  if (promosLoading && (!sortedPromos || sortedPromos.length === 0)) {
     return (
       <section className="promo-showcase-section" id="promo">
         <div className="container">
@@ -43,9 +53,9 @@ export default function PromoFlyers({ onOpenFlyerModal }) {
     );
   }
 
-  if (!promos || promos.length === 0) return null;
+  if (!sortedPromos || sortedPromos.length === 0) return null;
 
-  const N = promos.length;
+  const N = sortedPromos.length;
 
   const handleNext = (dir = 'left') => {
     if (N <= 1 || isSwipingOut) return;
@@ -173,7 +183,7 @@ export default function PromoFlyers({ onOpenFlyerModal }) {
             onMouseUp={onMouseUp}
             onMouseLeave={onMouseLeave}
           >
-            {promos.map((promo, idx) => {
+            {sortedPromos.map((promo, idx) => {
               const offset = (idx - currentIndex + N) % N;
               const isTop = offset === 0;
               const isNext = offset === 1;
@@ -278,7 +288,7 @@ export default function PromoFlyers({ onOpenFlyerModal }) {
           {/* Clean Pagination Dots */}
           {N > 1 && (
             <div className="promo-slider-pagination" style={{ marginTop: '24px' }}>
-              {promos.map((_, idx) => (
+              {sortedPromos.map((_, idx) => (
                 <button
                   key={idx}
                   className={`promo-slide-dot ${idx === currentIndex ? 'active' : ''}`}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base Application Theme -->
+    <style name="Theme.AmandaBrownies" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary_olive</item>
+        <item name="colorPrimaryVariant">@color/primary_olive_dark</item>
+        <item name="colorOnPrimary">@color/surface_white</item>
+        <item name="colorSecondary">@color/primary_gold</item>
+        <item name="android:statusBarColor">@color/status_bar</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">@color/surface_white</item>
+        <item name="android:windowBackground">@color/cream_bg</item>
+    </style>
+
+    <!-- Splash Screen Theme (Shows instantly on app cold start) -->
+    <style name="Theme.AmandaBrownies.Splash" parent="Theme.AmandaBrownies">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Amanda Brownies Kalimantan</string>
+    <string name="live_url">https://amandabrownies-kalimantan.store/</string>
+    <string name="offline_title">Koneksi Internet Terputus</string>
+    <string name="offline_message">Pastikan perangkat Anda terhubung ke jaringan Wi-Fi atau data seluler untuk mengakses katalog dan layanan Amanda Brownies.</string>
+    <string name="btn_retry">Coba Lagi</string>
+    <string name="exit_prompt">Tekan sekali lagi untuk keluar dari aplikasi</string>
+</resources>

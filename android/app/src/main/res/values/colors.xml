@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_olive">#4F5B2A</color>
+    <color name="primary_olive_dark">#373F1C</color>
+    <color name="primary_gold">#B8892D</color>
+    <color name="cream_bg">#F5EFE3</color>
+    <color name="surface_white">#FFFFFF</color>
+    <color name="text_main">#231B14</color>
+    <color name="text_muted">#5E5246</color>
+    <color name="status_bar">#4F5B2A</color>
+</resources>

@@ -135,14 +135,13 @@ export async function fetchPromos() {
   try {
     const { data, error } = await supabase
       .from('promos')
-      .select('*')
-      .order('id', { ascending: true });
+      .select('*');
 
     if (error || !data || data.length === 0) {
       return [];
     }
 
-    return data.map(pr => ({
+    const mapped = data.map((pr, idx) => ({
       id: pr.id,
       title: pr.title,
       badge: pr.badge || 'PROMO RESMI',
@@ -152,8 +151,12 @@ export async function fetchPromos() {
       description: pr.description || '',
       waMessage: pr.wa_msg || pr.waMessage || '',
       aspectRatio: '4/5',
+      sortOrder: Number(pr.sort_order ?? pr.sortOrder) || (idx + 1),
       active: true
     }));
+
+    mapped.sort((a, b) => (Number(a.sortOrder) || 999) - (Number(b.sortOrder) || 999));
+    return mapped;
   } catch (err) {
     return [];
   }
@@ -331,7 +334,7 @@ export async function pushToSupabase(tableName, payload, operation = 'upsert') {
       }));
     } else if (tableName === 'promos') {
       const list = Array.isArray(payload) ? payload : [payload];
-      dbPayload = list.map(pr => ({
+      dbPayload = list.map((pr, idx) => ({
         id: pr.id,
         title: pr.title,
         badge: pr.badge,
@@ -339,7 +342,8 @@ export async function pushToSupabase(tableName, payload, operation = 'upsert') {
         image: pr.image,
         period: pr.period,
         description: pr.description || '',
-        wa_msg: pr.waMessage || pr.wa_msg || ''
+        wa_msg: pr.waMessage || pr.wa_msg || '',
+        sort_order: Number(pr.sortOrder ?? pr.sort_order) || (idx + 1)
       }));
     } else if (tableName === 'pricelists') {
       const list = Array.isArray(payload) ? payload : [payload];
@@ -398,11 +402,20 @@ export async function pushToSupabase(tableName, payload, operation = 'upsert') {
     let { data, error } = await supabase.from(tableName).upsert(dbPayload, { onConflict: 'id' });
 
     // Graceful schema degradation: If Supabase returns PGRST204 (column not found in schema cache),
-    // strip optional columns that may not yet exist on legacy tables (e.g., grab_url, gofood_url, shopeefood_url)
+    // strip optional columns that may not yet exist on legacy tables (e.g., grab_url, gofood_url, shopeefood_url, sort_order)
     if (error && error.code === 'PGRST204' && tableName === 'outlets') {
       console.warn(`[Supabase] Schema notice on ${tableName}: ${error.message}. Retrying with core schema...`);
       const safePayload = dbPayload.map(o => {
         const { grab_url, gofood_url, shopeefood_url, instagram_url, tiktok_url, threads_url, ...core } = o;
+        return core;
+      });
+      const retryResult = await supabase.from(tableName).upsert(safePayload, { onConflict: 'id' });
+      data = retryResult.data;
+      error = retryResult.error;
+    } else if (error && error.code === 'PGRST204' && tableName === 'promos') {
+      console.warn(`[Supabase] Schema notice on ${tableName}: ${error.message}. Retrying without sort_order...`);
+      const safePayload = dbPayload.map(p => {
+        const { sort_order, ...core } = p;
         return core;
       });
       const retryResult = await supabase.from(tableName).upsert(safePayload, { onConflict: 'id' });

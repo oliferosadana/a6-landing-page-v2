@@ -617,6 +617,7 @@ export default function AdminPage({ onBackToLanding }) {
       title: fd.get('title'),
       badge: fd.get('badge') || 'PROMO RESMI',
       badgeColor: fd.get('badgeColor') || 'gold',
+      sortOrder: Number(fd.get('sortOrder')) || (promos.length + 1),
       period: fd.get('period') || '',
       waMessage: fd.get('waMessage') || '',
       description: fd.get('description') || '',
@@ -627,6 +628,7 @@ export default function AdminPage({ onBackToLanding }) {
     const updated = promos.some(p => p.id === id)
       ? promos.map(p => p.id === id ? newPromo : p)
       : [...promos, newPromo];
+    updated.sort((a, b) => (Number(a.sortOrder) || 999) - (Number(b.sortOrder) || 999));
     await pushToSupabase('promos', updated);
     await refreshAllData();
     setPromoModal({ open: false, data: null });
@@ -638,6 +640,38 @@ export default function AdminPage({ onBackToLanding }) {
     await pushToSupabase('promos', id, 'delete');
     await refreshAllData();
     showToast('Flyer promo berhasil dihapus.');
+  };
+
+  const handleMovePromoOrder = async (promoId, direction) => {
+    const sorted = [...promos].sort((a, b) => (Number(a.sortOrder) || 999) - (Number(b.sortOrder) || 999));
+    const currentIndex = sorted.findIndex(p => p.id === promoId);
+    if (currentIndex === -1) return;
+    const targetIndex = currentIndex + direction;
+    if (targetIndex < 0 || targetIndex >= sorted.length) return;
+
+    const currentItem = sorted[currentIndex];
+    const targetItem = sorted[targetIndex];
+
+    const currentOrder = Number(currentItem.sortOrder) || (currentIndex + 1);
+    const targetOrder = Number(targetItem.sortOrder) || (targetIndex + 1);
+
+    let newCurrentOrder = targetOrder;
+    let newTargetOrder = currentOrder;
+    if (currentOrder === targetOrder) {
+      newCurrentOrder = targetIndex + 1;
+      newTargetOrder = currentIndex + 1;
+    }
+
+    const updated = sorted.map((p, idx) => {
+      if (p.id === currentItem.id) return { ...p, sortOrder: newCurrentOrder };
+      if (p.id === targetItem.id) return { ...p, sortOrder: newTargetOrder };
+      return { ...p, sortOrder: Number(p.sortOrder) || (idx + 1) };
+    });
+
+    updated.sort((a, b) => (Number(a.sortOrder) || 999) - (Number(b.sortOrder) || 999));
+    await pushToSupabase('promos', updated);
+    await refreshAllData();
+    showToast('Urutan flyer promo berhasil diperbarui.');
   };
 
   const handleSavePricelist = async (e) => {
@@ -1652,11 +1686,16 @@ export default function AdminPage({ onBackToLanding }) {
               </div>
 
               <div className="promos-management-grid">
-                {promos.map((p) => (
+                {[...promos]
+                  .sort((a, b) => (Number(a.sortOrder) || 999) - (Number(b.sortOrder) || 999))
+                  .map((p, idx, arr) => (
                   <div key={p.id} className="cms-promo-card">
                     <div className="cms-promo-media">
                       <img src={p.image} alt={p.title} />
                       <span className={`cms-promo-badge ${p.badgeColor === 'red' ? 'red' : ''}`}>{p.badge}</span>
+                      <span className="cms-promo-order-badge" title="Urutan Tampilan pada Halaman Utama">
+                        <i className="fa-solid fa-arrow-down-1-9"></i> #{p.sortOrder ?? (idx + 1)}
+                      </span>
                     </div>
                     <div className="cms-promo-body">
                       <h4 className="cms-promo-title font-serif">{p.title}</h4>
@@ -1665,6 +1704,26 @@ export default function AdminPage({ onBackToLanding }) {
                         <i className="fa-regular fa-clock"></i> {p.period}
                       </small>
                       <div className="cms-promo-actions">
+                        <div style={{ display: 'flex', gap: '4px' }}>
+                          <button
+                            type="button"
+                            className="btn-reorder-sm"
+                            disabled={idx === 0}
+                            onClick={() => handleMovePromoOrder(p.id, -1)}
+                            title="Geser Naik (Tampil Lebih Awal)"
+                          >
+                            <i className="fa-solid fa-chevron-up"></i>
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-reorder-sm"
+                            disabled={idx === arr.length - 1}
+                            onClick={() => handleMovePromoOrder(p.id, 1)}
+                            title="Geser Turun"
+                          >
+                            <i className="fa-solid fa-chevron-down"></i>
+                          </button>
+                        </div>
                         <button className="btn-edit-sm" onClick={() => handleOpenPromoModal(p)}>
                           <i className="fa-solid fa-pen-to-square"></i> Edit
                         </button>
@@ -2963,13 +3022,29 @@ export default function AdminPage({ onBackToLanding }) {
                 </div>
               </div>
 
-              <div className="form-group">
-                <label>Warna Tema Badge</label>
-                <select name="badgeColor" defaultValue={promoModal.data?.badgeColor || 'gold'}>
-                  <option value="gold">Gold / Kuning Emas</option>
-                  <option value="red">Merah Spesial</option>
-                  <option value="olive">Hijau Olive</option>
-                </select>
+              <div className="form-grid-2">
+                <div className="form-group">
+                  <label>Warna Tema Badge</label>
+                  <select name="badgeColor" defaultValue={promoModal.data?.badgeColor || 'gold'}>
+                    <option value="gold">Gold / Kuning Emas</option>
+                    <option value="red">Merah Spesial</option>
+                    <option value="olive">Hijau Olive</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label>Urutan Tampilan (Sort Order) *</label>
+                  <input
+                    type="number"
+                    name="sortOrder"
+                    min="1"
+                    required
+                    defaultValue={promoModal.data?.sortOrder ?? (promos.length + 1)}
+                    placeholder="Contoh: 1 (Posisi Teratas/Depan)"
+                  />
+                  <small style={{ fontSize: '11px', color: 'var(--text-dim)', display: 'block', marginTop: '4px' }}>
+                    Nomor 1 akan tampil di depan (posisi tumpukan kartu teratas).
+                  </small>
+                </div>
               </div>
 
               <div className="form-group">
