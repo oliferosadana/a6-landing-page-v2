@@ -76,7 +76,7 @@ ALTER TABLE public.products DISABLE ROW LEVEL SECURITY;
 -- TABEL: public.promos
 -- ----------------------------------------------------------
 CREATE TABLE IF NOT EXISTS public.promos (
-id text NOT NULL,
+    id text NOT NULL,
     title text NOT NULL,
     badge text,
     badge_color text DEFAULT 'gold'::text,
@@ -84,9 +84,13 @@ id text NOT NULL,
     period text,
     description text,
     wa_msg text,
+    sort_order integer DEFAULT 1,
     created_at timestamp with time zone DEFAULT now(),
     PRIMARY KEY (id)
 );
+
+-- Migration for existing deployments
+ALTER TABLE public.promos ADD COLUMN IF NOT EXISTS sort_order integer DEFAULT 1;
 
 ALTER TABLE public.promos DISABLE ROW LEVEL SECURITY;
 
