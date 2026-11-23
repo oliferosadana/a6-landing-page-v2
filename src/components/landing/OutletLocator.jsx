@@ -141,253 +141,271 @@ export default function OutletLocator({ onOpenOutletModal }) {
                   const boothsList = out.booths || [];
 
                   return (
-                    <div key={out.id} className="outlet-network-card">
-                      {/* Left Media - 100% Minimalist Clean Image with Click-to-Zoom */}
-                      <div
-                        className="outlet-network-media"
-                        onClick={() => onOpenOutletModal && onOpenOutletModal(out)}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            if (onOpenOutletModal) onOpenOutletModal(out);
-                          }
-                        }}
-                        title={`Klik untuk memperbesar foto: ${out.name}`}
-                        style={{ cursor: 'zoom-in' }}
-                      >
-                        <img
-                          src={out.image}
-                          alt={out.name}
-                          loading="lazy"
-                          className="outlet-store-img"
-                        />
-
-                        {/* Social Media Pulse Overlay (Follow us: Instagram, TikTok, Threads) */}
+                    <React.Fragment key={out.id}>
+                      {/* Main Outlet Card */}
+                      <div className="outlet-network-card">
+                        {/* Left Media - 100% Minimalist Clean Image with Click-to-Zoom */}
                         <div
-                          className="outlet-media-socials"
-                          onClick={(e) => e.stopPropagation()}
-                          title="Ikuti Media Sosial Resmi Amanda Brownies"
+                          className="outlet-network-media"
+                          onClick={() => onOpenOutletModal && onOpenOutletModal(out)}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              if (onOpenOutletModal) onOpenOutletModal(out);
+                            }
+                          }}
+                          title={`Klik untuk memperbesar foto: ${out.name}`}
+                          style={{ cursor: 'zoom-in' }}
                         >
-                          <span className="outlet-social-label">Follow us:</span>
-                          <a
-                            href={out.instagramUrl || out.instagram_url || 'https://www.instagram.com/amandabrownies'}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="outlet-social-icon-btn outlet-social-pulse"
-                            title={`Kunjungi Instagram ${out.name}`}
-                            aria-label={`Instagram ${out.name}`}
-                          >
-                            <i className="fa-brands fa-instagram"></i>
-                          </a>
-                          <a
-                            href={out.tiktokUrl || out.tiktok_url || 'https://www.tiktok.com/@amandabrownies'}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="outlet-social-icon-btn outlet-social-pulse"
-                            title={`Kunjungi TikTok ${out.name}`}
-                            aria-label={`TikTok ${out.name}`}
-                          >
-                            <i className="fa-brands fa-tiktok"></i>
-                          </a>
-                          <a
-                            href={out.threadsUrl || out.threads_url || 'https://www.threads.net/@amandabrownies'}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="outlet-social-icon-btn outlet-social-pulse"
-                            title={`Kunjungi Threads ${out.name}`}
-                            aria-label={`Threads ${out.name}`}
-                          >
-                            <i className="fa-brands fa-threads"></i>
-                          </a>
-                        </div>
-                      </div>
+                          <img
+                            src={out.image}
+                            alt={out.name}
+                            loading="lazy"
+                            className="outlet-store-img"
+                          />
 
-                      {/* Right Body */}
-                      <div className="outlet-network-body">
-                        <div className="outlet-info-top">
-                          <h3 className="outlet-network-title font-serif">{out.name}</h3>
-                          <div className="outlet-meta-row">
-                            <span className="outlet-meta-item outlet-meta-loc" title={`Wilayah: ${out.city}`}>
-                              <i className="fa-solid fa-location-dot"></i>
-                              <span>{out.city}</span>
-                            </span>
-                            <span className="outlet-meta-item outlet-meta-time" title={`Jam Operasional: ${out.hours}`}>
-                              <i className="fa-regular fa-clock"></i>
-                              <span>{out.hours}</span>
-                            </span>
-                            {out.phone && out.phone !== '-' && (
+                          {/* Social Media Pulse Overlay (Follow us: Instagram, TikTok, Threads) */}
+                          <div
+                            className="outlet-media-socials"
+                            onClick={(e) => e.stopPropagation()}
+                            title="Ikuti Media Sosial Resmi Amanda Brownies"
+                          >
+                            <span className="outlet-social-label">Follow us:</span>
+                            <a
+                              href={out.instagramUrl || out.instagram_url || 'https://www.instagram.com/amandabrownies'}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="outlet-social-icon-btn outlet-social-pulse"
+                              title={`Kunjungi Instagram ${out.name}`}
+                              aria-label={`Instagram ${out.name}`}
+                            >
+                              <i className="fa-brands fa-instagram"></i>
+                            </a>
+                            <a
+                              href={out.tiktokUrl || out.tiktok_url || 'https://www.tiktok.com/@amandabrownies'}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="outlet-social-icon-btn outlet-social-pulse"
+                              title={`Kunjungi TikTok ${out.name}`}
+                              aria-label={`TikTok ${out.name}`}
+                            >
+                              <i className="fa-brands fa-tiktok"></i>
+                            </a>
+                            <a
+                              href={out.threadsUrl || out.threads_url || 'https://www.threads.net/@amandabrownies'}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="outlet-social-icon-btn outlet-social-pulse"
+                              title={`Kunjungi Threads ${out.name}`}
+                              aria-label={`Threads ${out.name}`}
+                            >
+                              <i className="fa-brands fa-threads"></i>
+                            </a>
+                          </div>
+                        </div>
+
+                        {/* Right Body */}
+                        <div className="outlet-network-body">
+                          <div className="outlet-info-top">
+                            <h3 className="outlet-network-title font-serif">{out.name}</h3>
+                            <div className="outlet-meta-row">
+                              <span className="outlet-meta-item outlet-meta-loc" title={`Wilayah: ${out.city}`}>
+                                <i className="fa-solid fa-location-dot"></i>
+                                <span>{out.city}</span>
+                              </span>
+                              <span className="outlet-meta-item outlet-meta-time" title={`Jam Operasional: ${out.hours}`}>
+                                <i className="fa-regular fa-clock"></i>
+                                <span>{out.hours}</span>
+                              </span>
+                              {out.phone && out.phone !== '-' && (
+                                <a
+                                  href={`tel:${out.phone.startsWith('+') ? out.phone : '+' + out.phone}`}
+                                  className="outlet-meta-item outlet-meta-phone"
+                                  title={`Hubungi ${out.name}: ${out.phone}`}
+                                >
+                                  <i className="fa-solid fa-phone"></i>
+                                  <span>{formatPhoneDisplay(out.phone)}</span>
+                                </a>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Outlet Primary Actions */}
+                          <div className="outlet-network-actions">
+                            <a
+                              href={`https://wa.me/${out.wa}?text=${encodeURIComponent(`Halo ${out.name}, saya ingin pesan brownies Amanda. Mohon info varian yang ready saat ini.`)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="btn-network-wa"
+                              title={`Chat WhatsApp: ${out.name}`}
+                            >
+                              <i className="fa-brands fa-whatsapp"></i>
+                              <span>Chat WA</span>
+                            </a>
+                            {Boolean(out.grabUrl && out.grabUrl.trim()) && (
                               <a
-                                href={`tel:${out.phone.startsWith('+') ? out.phone : '+' + out.phone}`}
-                                className="outlet-meta-item outlet-meta-phone"
-                                title={`Hubungi ${out.name}: ${out.phone}`}
+                                href={out.grabUrl.trim()}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn-network-grab"
+                                title={`Pesan via GrabFood: ${out.name}`}
                               >
-                                <i className="fa-solid fa-phone"></i>
-                                <span>{formatPhoneDisplay(out.phone)}</span>
+                                <GrabIcon size={14} className="grab-icon-svg" />
+                                <span>Grab</span>
                               </a>
                             )}
+                            {Boolean(out.gofoodUrl && out.gofoodUrl.trim()) && (
+                              <a
+                                href={out.gofoodUrl.trim()}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn-network-gofood"
+                                title={`Pesan via GoFood: ${out.name}`}
+                              >
+                                <GofoodIcon size={14} className="gofood-icon-svg" />
+                                <span>GoFood</span>
+                              </a>
+                            )}
+                            {Boolean(out.shopeefoodUrl && out.shopeefoodUrl.trim()) && (
+                              <a
+                                href={out.shopeefoodUrl.trim()}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn-network-shopee"
+                                title={`Pesan via ShopeeFood: ${out.name}`}
+                              >
+                                <ShopeeIcon size={14} className="shopee-icon-svg" />
+                                <span>Shopee</span>
+                              </a>
+                            )}
+                            <a
+                              href={out.mapsUrl || `https://maps.google.com/?q=${encodeURIComponent(out.name + ' ' + out.city)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="btn-network-maps"
+                              title={`Petunjuk Rute Google Maps: ${out.name}`}
+                            >
+                              <i className="fa-solid fa-location-dot"></i>
+                              <span>Lokasi</span>
+                            </a>
                           </div>
                         </div>
-
-                        {/* Outlet Primary Actions (Directly beneath main outlet info) */}
-                        <div className="outlet-network-actions">
-                          <a
-                            href={`https://wa.me/${out.wa}?text=${encodeURIComponent(`Halo ${out.name}, saya ingin pesan brownies Amanda. Mohon info varian yang ready saat ini.`)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-network-wa"
-                            title={`Chat WhatsApp: ${out.name}`}
-                          >
-                            <i className="fa-brands fa-whatsapp"></i>
-                            <span>Chat WA</span>
-                          </a>
-                          {Boolean(out.grabUrl && out.grabUrl.trim()) && (
-                            <a
-                              href={out.grabUrl.trim()}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="btn-network-grab"
-                              title={`Pesan via GrabFood: ${out.name}`}
-                            >
-                              <GrabIcon size={14} className="grab-icon-svg" />
-                              <span>Grab</span>
-                            </a>
-                          )}
-                          {Boolean(out.gofoodUrl && out.gofoodUrl.trim()) && (
-                            <a
-                              href={out.gofoodUrl.trim()}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="btn-network-gofood"
-                              title={`Pesan via GoFood: ${out.name}`}
-                            >
-                              <GofoodIcon size={14} className="gofood-icon-svg" />
-                              <span>GoFood</span>
-                            </a>
-                          )}
-                          {Boolean(out.shopeefoodUrl && out.shopeefoodUrl.trim()) && (
-                            <a
-                              href={out.shopeefoodUrl.trim()}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="btn-network-shopee"
-                              title={`Pesan via ShopeeFood: ${out.name}`}
-                            >
-                              <ShopeeIcon size={14} className="shopee-icon-svg" />
-                              <span>Shopee</span>
-                            </a>
-                          )}
-                          <a
-                            href={out.mapsUrl || `https://maps.google.com/?q=${encodeURIComponent(out.name + ' ' + out.city)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-network-maps"
-                            title={`Petunjuk Rute Google Maps: ${out.name}`}
-                          >
-                            <i className="fa-solid fa-location-dot"></i>
-                            <span>Lokasi</span>
-                          </a>
-                        </div>
-
-                        {/* Booths Counter List (Sub-points below main outlet actions) */}
-                        {boothsList.length > 0 && (
-                          <div className="outlet-booths-simple">
-                            <div className="booths-simple-title">
-                              <i className="fa-solid fa-store" style={{ color: 'var(--primary-gold)' }}></i>
-                              <span>Booth Counter ({boothsList.length} Titik):</span>
-                            </div>
-                            <ul className="booths-simple-list">
-                              {boothsList.map((bth, bIdx) => {
-                                const waMsg = encodeURIComponent(`Halo ${bth.name}, saya ingin memesan brownies Amanda. Mohon info ketersediaan stok.`);
-                                const hasWa = Boolean(bth.wa || out.wa);
-                                const hasGrab = Boolean(bth.grabUrl && bth.grabUrl.trim());
-                                const hasGofood = Boolean(bth.gofoodUrl && bth.gofoodUrl.trim());
-                                const hasShopee = Boolean(bth.shopeefoodUrl && bth.shopeefoodUrl.trim());
-                                const hasMaps = Boolean(bth.mapsUrl && bth.mapsUrl.trim());
-
-                                return (
-                                  <li key={bIdx} className="booth-simple-item">
-                                    <div className="booth-simple-text">
-                                      <span className="booth-simple-name">
-                                        <i className="fa-solid fa-circle-dot" style={{ fontSize: '7px', color: 'var(--primary-gold)', marginRight: '4px' }}></i>
-                                        {bth.name}
-                                      </span>
-                                      <span className="booth-simple-time">
-                                        <i className="fa-regular fa-clock" style={{ fontSize: '10px', marginRight: '3px' }}></i>
-                                        {bth.hours}
-                                      </span>
-                                    </div>
-                                    <div className="booth-item-actions">
-                                      {hasWa && (
-                                        <a
-                                          href={`https://wa.me/${bth.wa || out.wa}?text=${waMsg}`}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          className="btn-booth-simple-wa"
-                                          title={`Chat WhatsApp ${bth.name}`}
-                                          aria-label={`Chat WhatsApp ${bth.name}`}
-                                        >
-                                          <i className="fa-brands fa-whatsapp"></i>
-                                        </a>
-                                      )}
-                                      {hasGrab && (
-                                        <a
-                                          href={bth.grabUrl.trim()}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          className="btn-booth-simple-grab"
-                                          title={`Pesan via GrabFood ${bth.name}`}
-                                          aria-label={`Pesan via GrabFood ${bth.name}`}
-                                        >
-                                          <GrabIcon size={13} className="grab-icon-mini" />
-                                        </a>
-                                      )}
-                                      {hasGofood && (
-                                        <a
-                                          href={bth.gofoodUrl.trim()}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          className="btn-booth-simple-gofood"
-                                          title={`Pesan via GoFood ${bth.name}`}
-                                          aria-label={`Pesan via GoFood ${bth.name}`}
-                                        >
-                                          <GofoodIcon size={13} className="gofood-icon-mini" />
-                                        </a>
-                                      )}
-                                      {hasShopee && (
-                                        <a
-                                          href={bth.shopeefoodUrl.trim()}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          className="btn-booth-simple-shopee"
-                                          title={`Pesan via ShopeeFood ${bth.name}`}
-                                          aria-label={`Pesan via ShopeeFood ${bth.name}`}
-                                        >
-                                          <ShopeeIcon size={13} className="shopee-icon-mini" />
-                                        </a>
-                                      )}
-                                      {hasMaps && (
-                                        <a
-                                          href={bth.mapsUrl.trim()}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          className="btn-booth-simple-maps"
-                                          title={`Petunjuk Arah Google Maps ${bth.name}`}
-                                          aria-label={`Petunjuk Arah Google Maps ${bth.name}`}
-                                        >
-                                          <i className="fa-solid fa-map-location-dot"></i>
-                                        </a>
-                                      )}
-                                    </div>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          </div>
-                        )}
                       </div>
-                    </div>
+
+                      {/* Separate Booth Counter Cards (Tanpa Gambar, Font Size Sama dengan Outlet) */}
+                      {boothsList.map((bth, bIdx) => {
+                        const waMsg = encodeURIComponent(`Halo ${bth.name}, saya ingin memesan brownies Amanda. Mohon info ketersediaan stok.`);
+                        const bthWa = bth.wa || out.wa;
+                        const hasGrab = Boolean(bth.grabUrl && bth.grabUrl.trim());
+                        const hasGofood = Boolean(bth.gofoodUrl && bth.gofoodUrl.trim());
+                        const hasShopee = Boolean(bth.shopeefoodUrl && bth.shopeefoodUrl.trim());
+                        const hasMaps = Boolean(bth.mapsUrl && bth.mapsUrl.trim());
+
+                        return (
+                          <div key={bth.id || `${out.id}-bth-${bIdx}`} className="outlet-network-card booth-network-card">
+                            <div className="outlet-network-body">
+                              <div className="outlet-info-top">
+                                <div className="booth-card-header">
+                                  <span className="booth-card-badge">
+                                    <i className="fa-solid fa-store"></i> Booth Counter
+                                  </span>
+                                  <span className="booth-parent-outlet" title={`Cabang Induk: ${out.name}`}>
+                                    <i className="fa-solid fa-shop"></i> Cabang {out.city || out.name}
+                                  </span>
+                                </div>
+
+                                <h3 className="outlet-network-title font-serif">{bth.name}</h3>
+
+                                <div className="outlet-meta-row">
+                                  <span className="outlet-meta-item outlet-meta-loc" title={`Lokasi: ${bth.location || out.city}`}>
+                                    <i className="fa-solid fa-location-dot"></i>
+                                    <span>{bth.location || out.city}</span>
+                                  </span>
+                                  <span className="outlet-meta-item outlet-meta-time" title={`Jam Operasional: ${bth.hours}`}>
+                                    <i className="fa-regular fa-clock"></i>
+                                    <span>{bth.hours}</span>
+                                  </span>
+                                  {bthWa && bthWa !== '-' && (
+                                    <a
+                                      href={`tel:${bthWa.startsWith('+') ? bthWa : '+' + bthWa}`}
+                                      className="outlet-meta-item outlet-meta-phone"
+                                      title={`Hubungi ${bth.name}: ${bthWa}`}
+                                    >
+                                      <i className="fa-solid fa-phone"></i>
+                                      <span>{formatPhoneDisplay(bthWa)}</span>
+                                    </a>
+                                  )}
+                                </div>
+                              </div>
+
+                              {/* Booth Primary Actions - Sebaris Saja & Minimalis */}
+                              <div className="outlet-network-actions booth-network-actions">
+                                {bthWa && (
+                                  <a
+                                    href={`https://wa.me/${bthWa}?text=${waMsg}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-network-wa"
+                                    title={`Chat WhatsApp: ${bth.name}`}
+                                  >
+                                    <i className="fa-brands fa-whatsapp"></i>
+                                    <span>Chat WA</span>
+                                  </a>
+                                )}
+                                {hasGrab && (
+                                  <a
+                                    href={bth.grabUrl.trim()}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-network-grab"
+                                    title={`Pesan via GrabFood: ${bth.name}`}
+                                  >
+                                    <GrabIcon size={14} className="grab-icon-svg" />
+                                    <span>Grab</span>
+                                  </a>
+                                )}
+                                {hasGofood && (
+                                  <a
+                                    href={bth.gofoodUrl.trim()}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-network-gofood"
+                                    title={`Pesan via GoFood: ${bth.name}`}
+                                  >
+                                    <GofoodIcon size={14} className="gofood-icon-svg" />
+                                    <span>GoFood</span>
+                                  </a>
+                                )}
+                                {hasShopee && (
+                                  <a
+                                    href={bth.shopeefoodUrl.trim()}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-network-shopee"
+                                    title={`Pesan via ShopeeFood: ${bth.name}`}
+                                  >
+                                    <ShopeeIcon size={14} className="shopee-icon-svg" />
+                                    <span>Shopee</span>
+                                  </a>
+                                )}
+                                <a
+                                  href={hasMaps ? bth.mapsUrl.trim() : `https://maps.google.com/?q=${encodeURIComponent(bth.name + ' ' + (bth.location || out.city))}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="btn-network-maps"
+                                  title={`Petunjuk Rute Google Maps: ${bth.name}`}
+                                >
+                                  <i className="fa-solid fa-location-dot"></i>
+                                  <span>Lokasi</span>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </React.Fragment>
                   );
                 })}
               </div>
