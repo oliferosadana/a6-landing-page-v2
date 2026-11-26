@@ -2830,14 +2830,15 @@ export default function AdminPage({ onBackToLanding }) {
                   <div className="panel-head">
                     <div className="panel-head-title">
                       <i className="fa-solid fa-network-wired" style={{ color: 'var(--primary-olive)' }}></i>
-                      <h3>Integrasi Jaringan Platform BorneoLink WAAS</h3>
+                      <h3>Integrasi Jaringan Platform BorneoLink WAAS (Billing & Lisensi)</h3>
                     </div>
-                    <span className="badge-pill gold"><i className="fa-solid fa-cloud"></i> Master Network</span>
+                    <span className="badge-pill gold"><i className="fa-solid fa-shield-halved"></i> Sistem Lisensi</span>
                   </div>
                   <div className="panel-body">
-                    <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', marginBottom: '16px' }}>
-                      Koneksi ke Database Master WAAS untuk validasi status langganan &amp; penegakan suspensi website saat jatuh tempo. Standar arsitektur Dual Database Client.
-                    </p>
+                    <div style={{ padding: '10px 14px', background: 'rgba(212, 175, 55, 0.08)', border: '1px solid rgba(212, 175, 55, 0.25)', borderRadius: '8px', marginBottom: '16px', fontSize: '12px', color: 'var(--text-muted)', lineHeight: '1.5' }}>
+                      <i className="fa-solid fa-circle-info" style={{ color: 'var(--primary-gold)', marginRight: '6px' }}></i>
+                      <strong>Arsitektur Dual Database:</strong> Database konten toko Anda (outlet, menu, promo, stok) dikelola mandiri pada server <code>http://supabase.146.235.22.182.sslip.io</code> di panel atas. Panel ini khusus sinkronisasi billing &amp; status aktif website ke Master WAAS.
+                    </div>
                     <form onSubmit={handleSaveWaasConfig}>
                       <div className="form-grid-2" style={{ marginBottom: '16px' }}>
                         <div className="form-group">

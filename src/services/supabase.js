@@ -1,17 +1,21 @@
 import { createClient } from '@supabase/supabase-js';
 
+const envUrl = typeof import.meta !== 'undefined' ? (import.meta.env?.VITE_SUPABASE_URL || import.meta.env?.SUPABASE_URL) : '';
 export const SUPABASE_URL =
-  (typeof import.meta !== 'undefined' && (import.meta.env?.VITE_SUPABASE_URL || import.meta.env?.SUPABASE_URL))
-  || 'http://supabase.146.235.22.182.sslip.io';
+  (envUrl && !envUrl.includes('fywzoiqmlxwbnkvordxu'))
+    ? envUrl
+    : 'http://supabase.146.235.22.182.sslip.io';
 
+const envKey = typeof import.meta !== 'undefined' ? (
+  import.meta.env?.VITE_SUPABASE_ANON_KEY ||
+  import.meta.env?.VITE_SUPABASE_PUBLISHABLE_KEY ||
+  import.meta.env?.SUPABASE_PUBLISHABLE_KEY ||
+  import.meta.env?.SUPABASE_ANON_KEY
+) : '';
 export const SUPABASE_KEY =
-  (typeof import.meta !== 'undefined' && (
-    import.meta.env?.VITE_SUPABASE_ANON_KEY ||
-    import.meta.env?.VITE_SUPABASE_PUBLISHABLE_KEY ||
-    import.meta.env?.SUPABASE_PUBLISHABLE_KEY ||
-    import.meta.env?.SUPABASE_ANON_KEY
-  ))
-  || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3OTU2Njc1NjksImV4cCI6MTg5MzQ1NjAwMCwicm9sZSI6ImFub24iLCJpc3MiOiJzdXBhYmFzZSJ9.0eNH8D93HIsqyd1QEEQoSp6JKyUhEtAFQZh4tc_H0zc';
+  (envKey && !envKey.includes('sb_publishable_w8ai'))
+    ? envKey
+    : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3OTU2Njc1NjksImV4cCI6MTg5MzQ1NjAwMCwicm9sZSI6ImFub24iLCJpc3MiOiJzdXBhYmFzZSJ9.0eNH8D93HIsqyd1QEEQoSp6JKyUhEtAFQZh4tc_H0zc';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth: {
