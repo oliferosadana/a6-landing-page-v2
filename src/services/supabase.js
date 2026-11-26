@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 
 export const SUPABASE_URL =
   (typeof import.meta !== 'undefined' && (import.meta.env?.VITE_SUPABASE_URL || import.meta.env?.SUPABASE_URL))
-  || 'http://146.235.22.182:8000';
+  || 'http://supabase.146.235.22.182.sslip.io';
 
 export const SUPABASE_KEY =
   (typeof import.meta !== 'undefined' && (
@@ -11,7 +11,7 @@ export const SUPABASE_KEY =
     import.meta.env?.SUPABASE_PUBLISHABLE_KEY ||
     import.meta.env?.SUPABASE_ANON_KEY
   ))
-  || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlzcyI6InN1cGFiYXNlIiwiaWF0IjoxNzk1NjY1ODMwLCJleHAiOjE5NTMzNDU4MzB9.dKT36agitT7XZ77xMnMCd8M_jMR61FFc7P_8Y7rO3vg';
+  || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3OTU2Njc1NjksImV4cCI6MTg5MzQ1NjAwMCwicm9sZSI6ImFub24iLCJpc3MiOiJzdXBhYmFzZSJ9.0eNH8D93HIsqyd1QEEQoSp6JKyUhEtAFQZh4tc_H0zc';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth: {
