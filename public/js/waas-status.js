@@ -218,12 +218,20 @@
 
       // Realtime subscription setup
       if (!activeChannel) {
-        activeChannel = client
-          .channel('waas-live-status-enforcer-' + config.tenantId)
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'websites' }, () => checkWaasStatus())
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'tenants' }, () => checkWaasStatus())
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'subscriptions' }, () => checkWaasStatus())
-          .subscribe();
+        try {
+          const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
+          const isHttpDb = String(config.waasUrl || '').startsWith('http://');
+          if (!isHttps || !isHttpDb) {
+            activeChannel = client
+              .channel('waas-live-status-enforcer-' + config.tenantId)
+              .on('postgres_changes', { event: '*', schema: 'public', table: 'websites' }, () => checkWaasStatus())
+              .on('postgres_changes', { event: '*', schema: 'public', table: 'tenants' }, () => checkWaasStatus())
+              .on('postgres_changes', { event: '*', schema: 'public', table: 'subscriptions' }, () => checkWaasStatus())
+              .subscribe();
+          }
+        } catch (wsErr) {
+          console.warn('WAAS realtime subscription error:', wsErr);
+        }
       }
     } catch (err) {
       console.warn('WAAS status check error:', err);
