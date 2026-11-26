@@ -2783,7 +2783,7 @@ export default function AdminPage({ onBackToLanding }) {
                   <div className="panel-head">
                     <div className="panel-head-title">
                       <i className="fa-solid fa-database" style={{ color: 'var(--primary-olive)' }}></i>
-                      <h3>Kredensial Database Supabase Cloud</h3>
+                      <h3>Kredensial Database Supabase (Active Endpoint)</h3>
                     </div>
                     <span className="badge-pill olive"><i className="fa-solid fa-lock"></i> Terisolasi Aman</span>
                   </div>
@@ -2791,7 +2791,7 @@ export default function AdminPage({ onBackToLanding }) {
                     <div className="form-group" style={{ marginBottom: '18px' }}>
                       <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <span>Supabase Project URL *</span>
-                        <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>Format: https://[project-id].supabase.co</span>
+                        <span style={{ fontSize: '11px', color: 'var(--accent-green)', fontWeight: 600 }}><i className="fa-solid fa-circle-check"></i> Endpoint Aktif</span>
                       </label>
                       <div className="input-with-icon">
                         <i className="fa-solid fa-globe"></i>
