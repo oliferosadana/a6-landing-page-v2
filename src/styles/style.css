@@ -2225,9 +2225,15 @@ h4,
 }
 
 .outlet-network-actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 7px;
+  width: 100%;
+}
+
+.outlet-network-actions > a:last-child:nth-child(odd),
+.outlet-network-actions > .btn-network-maps:last-child:nth-child(odd) {
+  grid-column: span 2;
 }
 
 .btn-network-wa,
@@ -2235,19 +2241,19 @@ h4,
 .btn-network-gofood,
 .btn-network-shopee,
 .btn-network-maps {
-  flex: 1;
+  width: 100%;
   min-width: 0;
-  height: 34px;
-  font-size: 11px;
+  height: 35px;
+  font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.1px;
-  padding: 0 4px;
+  padding: 0 6px;
   border-radius: 7px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4.5px;
+  gap: 5px;
   transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
