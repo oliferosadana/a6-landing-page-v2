@@ -319,10 +319,6 @@ export default function OutletLocator({ onOpenOutletModal }) {
                                 <h3 className="outlet-network-title font-serif">{bth.name}</h3>
 
                                 <div className="outlet-meta-row">
-                                  <span className="outlet-meta-item outlet-meta-loc" title={`Lokasi: ${bth.location || out.city}`}>
-                                    <i className="fa-solid fa-location-dot"></i>
-                                    <span>{bth.location || out.city}</span>
-                                  </span>
                                   <span className="outlet-meta-item outlet-meta-time" title={`Jam Operasional: ${bth.hours}`}>
                                     <i className="fa-regular fa-clock"></i>
                                     <span>{bth.hours}</span>
