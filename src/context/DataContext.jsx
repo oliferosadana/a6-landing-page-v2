@@ -8,6 +8,7 @@ import {
   fetchTicker,
   fetchCsInquiries,
   pushToSupabase,
+  SUPABASE_URL,
   supabase
 } from '../services/supabase';
 import { getCache, setCache } from '../utils/cache';
@@ -297,31 +298,54 @@ export function DataProvider({ children }) {
     // 2. Refresh live data from Supabase in the background
     refreshAllData();
 
-    // Supabase Realtime channel
-    const channel = supabase
-      .channel('public-realtime-v2')
-      .on('postgres_changes', { event: '*', schema: 'public' }, (payload) => {
-        console.log('⚡ [Realtime V2] Event received on table:', payload.table);
-        if (payload.table === 'cs_inquiries') {
-          if (payload.new && payload.new.id) {
-            const ticket = payload.new;
-            addCsInquiry(ticket);
-            if (typeof window !== 'undefined') {
-              window.dispatchEvent(new CustomEvent('amanda_new_cs_ticket', { detail: ticket }));
+    // Supabase Realtime channel (guarded against Mixed Content / Insecure WebSocket on HTTPS)
+    let channel = null;
+    try {
+      const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
+      const isHttpDb = String(SUPABASE_URL || '').startsWith('http://');
+
+      // Browser security blocks ws:// (insecure websocket) when web page is loaded over https://
+      if (!isHttps || !isHttpDb) {
+        channel = supabase
+          .channel('public-realtime-v2')
+          .on('postgres_changes', { event: '*', schema: 'public' }, (payload) => {
+            console.log('⚡ [Realtime V2] Event received on table:', payload.table);
+            if (payload.table === 'cs_inquiries') {
+              if (payload.new && payload.new.id) {
+                const ticket = payload.new;
+                addCsInquiry(ticket);
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('amanda_new_cs_ticket', { detail: ticket }));
+                }
+              } else {
+                // Selective refresh for CS tickets
+                refreshCsInquiries();
+              }
+            } else {
+              refreshAllData();
             }
-          } else {
-            // Selective refresh for CS tickets
-            refreshCsInquiries();
-          }
-        } else {
-          refreshAllData();
-        }
-      })
-      .subscribe();
+          })
+          .subscribe((status, err) => {
+            if (err) {
+              console.warn('[Realtime V2] Subscription warning:', err);
+            }
+          });
+      } else {
+        console.warn('⚠️ [Realtime V2] Skip insecure WebSocket (ws://) on HTTPS page to avoid mixed-content error. Using REST.');
+      }
+    } catch (wsErr) {
+      console.warn('⚠️ [Realtime V2] Failed to setup realtime subscription:', wsErr);
+    }
 
     return () => {
       isMounted = false;
-      supabase.removeChannel(channel);
+      if (channel) {
+        try {
+          supabase.removeChannel(channel);
+        } catch (e) {
+          console.warn('Error removing channel:', e);
+        }
+      }
     };
   }, [refreshAllData, refreshCsInquiries]);
 
